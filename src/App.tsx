@@ -122,7 +122,7 @@ export default function App() {
         {/* Countdown Timer */}
         <div className="w-full max-w-xl mx-auto">
           <div className="text-[10px] sm:text-[11px] uppercase tracking-widest text-[#668B84] font-semibold mb-3">
-            Countdown to Congress Assembly
+            The Countdown Begins
           </div>
 
           <div className="grid grid-cols-4 gap-2.5 sm:gap-4">
