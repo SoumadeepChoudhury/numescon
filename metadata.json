@@ -1,6 +1,8 @@
 {
-  "name": "NUMESCON 2026 | Medical Congress Advance Notice",
+  "name": "NUMESCON 2026 | Academic Fest Advance Notice",
   "description": "Official advance announcement and pre-registration portal for NUMESCON 2026. Tentative dates: 1st & 2nd December 2026. A premier clinical sciences congress.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
