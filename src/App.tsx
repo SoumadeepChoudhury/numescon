@@ -3,7 +3,7 @@ import NbmcLogo from './components/NbmcLogo.tsx';
 import MedicalBackground from './components/MedicalBackground.tsx';
 
 export default function App() {
-  // Target tentative date: 1st December 2026, 09:00 AM UTC
+  // Target tentative date: 1st December 2026, 00:00 AM UTC
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -12,7 +12,7 @@ export default function App() {
   });
 
   useEffect(() => {
-    const target = new Date('2026-12-01T09:00:00Z').getTime();
+    const target = new Date('2026-12-01T00:00:01+05:30').getTime();
 
     const updateTimer = () => {
       const now = new Date().getTime();
