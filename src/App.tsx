@@ -12,7 +12,7 @@ export default function App() {
   });
 
   useEffect(() => {
-    const target = new Date('2026-12-01T00:00:01+05:30').getTime();
+    const target = new Date('2026-11-28T00:00:01+05:30').getTime();
 
     const updateTimer = () => {
       const now = new Date().getTime();
@@ -110,7 +110,7 @@ export default function App() {
               Dates:
             </span>
             <span className="font-serif text-lg sm:text-2xl font-bold text-[#143D34]">
-              1st & 2nd December 2026
+              28th & 29th November 2026
             </span>
           </div>
           <span className="hidden sm:inline text-[#C0D7CE]">·</span>
