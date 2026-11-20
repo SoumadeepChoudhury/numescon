@@ -78,42 +78,6 @@ export default function LegacyGallerySection() {
           </div>
         </div>
 
-        {/* Proof Metrics Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 p-8 bg-white border border-slate-200 rounded-3xl mb-14 shadow-xs">
-          <div>
-            <span className="text-3xl sm:text-5xl font-serif font-black text-slate-950 tabular-nums block">
-              1,450+
-            </span>
-            <span className="text-sm font-bold text-slate-600 mt-2 block">
-              Past Fest Delegates
-            </span>
-          </div>
-          <div>
-            <span className="text-3xl sm:text-5xl font-serif font-black text-blue-900 tabular-nums block">
-              88+
-            </span>
-            <span className="text-sm font-bold text-slate-600 mt-2 block">
-              Medical &amp; Science Colleges
-            </span>
-          </div>
-          <div>
-            <span className="text-3xl sm:text-5xl font-serif font-black text-slate-950 tabular-nums block">
-              42 Labs
-            </span>
-            <span className="text-sm font-bold text-slate-600 mt-2 block">
-              Simulation Stations
-            </span>
-          </div>
-          <div>
-            <span className="text-3xl sm:text-5xl font-serif font-black text-emerald-800 tabular-nums block">
-              9+ Tracks
-            </span>
-            <span className="text-sm font-bold text-slate-600 mt-2 block">
-              Clinical Skill Modules
-            </span>
-          </div>
-        </div>
-
         {/* Loading State */}
         {isLoading && (
           <div className="rounded-3xl border border-slate-200 bg-white p-12 sm:p-20 flex flex-col items-center justify-center min-h-[380px] mb-16">
@@ -254,11 +218,10 @@ export default function LegacyGallerySection() {
             <div className="flex items-center gap-2 p-1.5 bg-white border border-slate-200 rounded-2xl mb-10 w-fit max-w-full overflow-x-auto">
               <button
                 onClick={() => setActiveYear('All')}
-                className={`px-5 py-2 text-sm font-semibold rounded-xl transition-all whitespace-nowrap shrink-0 cursor-pointer tabular-nums ${
-                  activeYear === 'All'
-                    ? 'bg-slate-950 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-950'
-                }`}
+                className={`px-5 py-2 text-sm font-semibold rounded-xl transition-all whitespace-nowrap shrink-0 cursor-pointer tabular-nums ${activeYear === 'All'
+                  ? 'bg-slate-950 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-950'
+                  }`}
               >
                 All Archive Photos ({archivePhotos.length})
               </button>
@@ -266,11 +229,10 @@ export default function LegacyGallerySection() {
                 <button
                   key={year}
                   onClick={() => setActiveYear(year)}
-                  className={`px-5 py-2 text-sm font-semibold rounded-xl transition-all whitespace-nowrap shrink-0 cursor-pointer tabular-nums ${
-                    activeYear === year
-                      ? 'bg-slate-950 text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-950'
-                  }`}
+                  className={`px-5 py-2 text-sm font-semibold rounded-xl transition-all whitespace-nowrap shrink-0 cursor-pointer tabular-nums ${activeYear === year
+                    ? 'bg-slate-950 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-950'
+                    }`}
                 >
                   NUMESCON {year}
                 </button>
@@ -343,119 +305,6 @@ export default function LegacyGallerySection() {
               ))}
             </div>
           </>
-        )}
-
-        {/* Testimonials */}
-        <div className="border-t border-slate-200 pt-14">
-          <div className="max-w-2xl mb-10">
-            <h3 className="font-serif text-3xl font-bold text-slate-900">
-              Echoes from the Delegate Cohort
-            </h3>
-            <p className="text-base text-slate-600 mt-2">
-              How past delegates translated their academic fest simulation experience into surgical residencies and indexed papers.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-xs relative">
-              <Quote className="w-8 h-8 text-slate-300 mb-4" />
-              <p className="text-base sm:text-lg text-slate-700 leading-relaxed italic mb-6">
-                &ldquo;Attending the surgical suturing and airway workshop at NUMESCON gave me hands-on training that wasn&apos;t readily available in standard undergraduate rotations. That clinical confidence directly helped me in my residency.&rdquo;
-              </p>
-              <div className="border-t border-slate-100 pt-4 flex items-center justify-between text-sm">
-                <div>
-                  <strong className="text-slate-900 block text-base">Dr. Raghavendra K. Rao</strong>
-                  <span className="text-slate-500 text-xs sm:text-sm block">Junior Resident in General Surgery</span>
-                </div>
-                <span className="font-mono text-xs text-slate-400">Delegate 2024</span>
-              </div>
-            </div>
-
-            <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-xs relative">
-              <Quote className="w-8 h-8 text-slate-300 mb-4" />
-              <p className="text-base sm:text-lg text-slate-700 leading-relaxed italic mb-6">
-                &ldquo;Presenting our clinical poster at NUMESCON at North Bengal Medical College &amp; Hospital allowed our team to receive constructive feedback from senior professors and publish our study in an indexed journal.&rdquo;
-              </p>
-              <div className="border-t border-slate-100 pt-4 flex items-center justify-between text-sm">
-                <div>
-                  <strong className="text-slate-900 block text-base">Anjali Menon, Final Year MBBS</strong>
-                  <span className="text-slate-500 text-xs sm:text-sm block">National Scientific Poster Distinction Recipient</span>
-                </div>
-                <span className="font-mono text-xs text-slate-400">Delegate 2025</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Lightbox Modal for Uploaded Archive Photo */}
-        {selectedPhoto && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs"
-            onClick={() => setSelectedPhoto(null)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200"
-            >
-              <div className="px-6 py-4 bg-slate-950 text-white flex items-center justify-between sticky top-0 z-10">
-                <span className="text-xs font-mono font-bold text-amber-400">
-                  NUMESCON {selectedPhoto.year} · ARCHIVAL RECORD
-                </span>
-                <button
-                  onClick={() => setSelectedPhoto(null)}
-                  className="p-1.5 text-slate-400 hover:text-white cursor-pointer"
-                  aria-label="Close"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-
-              <div className="p-6 sm:p-8">
-                <div className="w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-200 mb-6">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={selectedPhoto.imageUrl}
-                    alt={selectedPhoto.title}
-                    referrerPolicy="no-referrer"
-                    className="w-full max-h-[55vh] object-contain"
-                  />
-                </div>
-
-                <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
-                  <span className="font-semibold text-blue-900">NUMESCON {selectedPhoto.year}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{selectedPhoto.category}</span>
-                  {selectedPhoto.highlightStat && (
-                    <>
-                      <span aria-hidden="true">·</span>
-                      <span>{selectedPhoto.highlightStat}</span>
-                    </>
-                  )}
-                </div>
-
-                <h4 className="font-serif text-2xl font-bold text-slate-950 mb-3">
-                  {selectedPhoto.title}
-                </h4>
-
-                <p className="text-base text-slate-600 leading-relaxed mb-8">
-                  {selectedPhoto.caption}
-                </p>
-
-                <div className="flex items-center justify-between text-sm text-slate-500 border-t border-slate-100 pt-4">
-                  <span className="font-semibold text-slate-800">Verified Archival Entry</span>
-                  <button
-                    onClick={() => setSelectedPhoto(null)}
-                    className="px-6 py-2.5 bg-slate-950 hover:bg-slate-800 text-white rounded-xl font-bold text-sm transition-colors cursor-pointer"
-                  >
-                    Close Record
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
         )}
       </div>
     </section>

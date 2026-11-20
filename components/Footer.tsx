@@ -31,13 +31,13 @@ export default function Footer({
                   NUMESCON 2026
                 </span>
                 <span className="text-xs text-slate-400 font-sans mt-1 block">
-                  National Undergraduate Medical & Science Academic Fest
+                  Annual Medical Academic Fest 2026
                 </span>
               </div>
             </div>
 
             <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-md">
-              National Undergraduate Medical, Science & Academic Fest. Organised and hosted by North Bengal Medical College & Hospital (NBMC&H), dedicated to advancing operative skills, clinical diagnostics, and student research.
+              Annual Medical Academic Fest 2026. Organised and hosted by North Bengal Medical College & Hospital (NBMC&H), dedicated to advancing operative skills, clinical diagnostics, and student research.
             </p>
 
             <div className="flex items-center gap-2.5 text-sm text-slate-400 pt-1">
@@ -170,7 +170,7 @@ export default function Footer({
                   href="mailto:secretariat@numescon2026.org"
                   className="font-mono text-xs sm:text-sm text-slate-300 hover:text-white break-all transition-colors"
                 >
-                  secretariat@numescon2026.org
+                  Email: nbmcplasma@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-3">
