@@ -1,0 +1,6 @@
+{
+  "name": "NUMESCON 2026 - Academic Conference Portal",
+  "description": "Official landing page, interactive brochure, cluster workshop selector, teaser trailer, and delegate registration system for NUMESCON 2026.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: var(--font-serif), ui-serif, Georgia, serif;
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+}
+
+
+@media print {
+  @page {
+    size: auto;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  /* Completely remove everything except #printable-pass and its parent wrappers */
+  body *:not(#printable-pass):not(#printable-pass *):not(:has(#printable-pass)) {
+    display: none !important;
+  }
+
+  /* Strip extra spacing from parent wrappers so the pass starts at the top of Page 1 */
+  body *:has(#printable-pass) {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  #printable-pass {
+    width: 100% !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
