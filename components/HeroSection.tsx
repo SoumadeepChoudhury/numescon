@@ -124,7 +124,7 @@ export default function HeroSection({
               {/* Stat 4 */}
               <div className="flex flex-col items-center justify-center text-center px-4 sm:px-6 py-4 md:py-2">
                 <span className="pl-4 block text-2xl sm:text-3xl lg:text-4xl font-serif font-black text-emerald-800 tabular-nums leading-tight whitespace-nowrap">
-                  15+ Modules
+                  10+ Modules
                 </span>
                 <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 mt-2 block">
                   3 Workshops Each Day
