@@ -495,7 +495,7 @@ export default function RegistrationSection({
                     {passCluster.title}
                   </div>
                   <div className="text-sm text-slate-600 mt-1.5">
-                    Enrolled in all {passCluster.workshops.length} mandatory hands-on workshops (3 on Day 1 + 3 on Day 2) with personal workbench allocation.
+                    Enrolled in all {passCluster.workshops.length} mandatory hands-on workshops (2 on Day 1 + 2 on Day 2) with personal workbench allocation.
                   </div>
                   <div className="mt-3 pt-3 border-t border-slate-200/80 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                     <div>
@@ -1051,7 +1051,7 @@ export default function RegistrationSection({
                     Step 3: Choose Your Workshop Cluster (A, B, or C)
                   </h3>
                   <p className="text-sm text-slate-600 mt-1">
-                    Select one cluster below. Enrolling in a cluster automatically enrolls you in all 6 mandatory workshops included in that cluster (3 on Day 1 and 3 on Day 2) — individual workshop selection is not available.
+                    Select one cluster below. Enrolling in a cluster automatically enrolls you in all 4 mandatory workshops included in that cluster (2 on Day 1 and 2 on Day 2) — individual workshop selection is not available.
                   </p>
                 </div>
 
@@ -1080,7 +1080,7 @@ export default function RegistrationSection({
                           {cl.name}
                         </span>
                         <span className={`block text-xs mt-1 ${isSelected ? 'text-blue-100' : 'text-slate-500'}`}>
-                          All 6 Workshops Included (3 Day 1 + 3 Day 2)
+                          All 4 Workshops Included (2 Day 1 + 2 Day 2)
                         </span>
                       </button>
                     );
@@ -1110,13 +1110,13 @@ export default function RegistrationSection({
                   <div className="my-4 p-3.5 bg-blue-50/70 border border-blue-200/80 rounded-xl text-xs sm:text-sm text-slate-700 leading-relaxed">
                     <strong className="text-blue-950">Cluster Enrollment Policy:</strong> Delegates enrolled in{' '}
                     <strong className="text-slate-950">Cluster {chosenCluster.id} ({chosenCluster.name})</strong>{' '}
-                    attend all 6 hands-on sessions listed below across 28th &amp; 29th November 2026. Workshops cannot be added or removed individually.
+                    attend all 4 hands-on sessions listed below across 28th &amp; 29th November 2026. Workshops cannot be added or removed individually.
                   </div>
 
                   {/* Day 1 Workshops (Read-Only List) */}
                   <div className="mb-6">
                     <div className="text-xs font-bold uppercase tracking-wider text-blue-900 mb-3">
-                      Day 1 · 28 November 2026 (3 Mandatory Workshops · 4:00 – 7:00 PM)
+                      Day 1 · 28 November 2026 (2 Mandatory Workshops · 4:00 – 7:00 PM)
                     </div>
                     <div className="space-y-3">
                       {chosenCluster.workshops
@@ -1148,7 +1148,7 @@ export default function RegistrationSection({
                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                                   <span className="font-semibold text-slate-800">{ws.leadFaculty}</span>
                                   <span aria-hidden="true">·</span>
-                                  <span>{ws.hall}</span>
+                                  {/* <span>{ws.hall}</span> */}
                                 </div>
                                 <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">
                                   <Check className="w-3.5 h-3.5" />
@@ -1164,7 +1164,7 @@ export default function RegistrationSection({
                   {/* Day 2 Workshops (Read-Only List) */}
                   <div>
                     <div className="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-3">
-                      Day 2 · 29 November 2026 (3 Mandatory Practical Workshops)
+                      Day 2 · 29 November 2026 (2 Mandatory Practical Workshops)
                     </div>
                     <div className="space-y-3">
                       {chosenCluster.workshops
@@ -1196,7 +1196,7 @@ export default function RegistrationSection({
                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                                   <span className="font-semibold text-slate-800">{ws.leadFaculty}</span>
                                   <span aria-hidden="true">·</span>
-                                  <span>{ws.hall}</span>
+                                  {/* <span>{ws.hall}</span> */}
                                 </div>
                                 <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">
                                   <Check className="w-3.5 h-3.5" />
@@ -1574,7 +1574,7 @@ export default function RegistrationSection({
                       {chosenCluster.title}
                     </strong>
                     <span className="text-sm text-slate-600 block mt-1">
-                      All {chosenCluster.workshops.length} mandatory workshops included across 28th &amp; 29th November 2026 (3 on Day 1 + 3 on Day 2).
+                      All {chosenCluster.workshops.length} mandatory workshops included across 28th &amp; 29th November 2026 (2 on Day 1 + 2 on Day 2).
                     </span>
                     <div className="mt-3 pt-3 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                       <div>

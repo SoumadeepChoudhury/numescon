@@ -76,11 +76,10 @@ export default function EventsScheduleSection() {
                   setSelectedDay(dayObj.day);
                   setSelectedCategory('All');
                 }}
-                className={`p-6 rounded-2xl border text-left transition-all cursor-pointer ${
-                  isSelected
-                    ? 'bg-slate-950 text-white border-slate-950 shadow-md scale-[1.01]'
-                    : 'bg-white text-slate-800 border-slate-200 hover:border-slate-300'
-                }`}
+                className={`p-6 rounded-2xl border text-left transition-all cursor-pointer ${isSelected
+                  ? 'bg-slate-950 text-white border-slate-950 shadow-md scale-[1.01]'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-slate-300'
+                  }`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className={`text-xs font-bold uppercase tracking-wider ${isSelected ? 'text-amber-400' : 'text-slate-500'}`}>
@@ -121,11 +120,10 @@ export default function EventsScheduleSection() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 text-sm font-bold rounded-xl transition-all whitespace-nowrap cursor-pointer ${
-                  selectedCategory === cat
-                    ? 'bg-blue-900 text-white shadow-xs'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
+                className={`px-4 py-2 text-sm font-bold rounded-xl transition-all whitespace-nowrap cursor-pointer ${selectedCategory === cat
+                  ? 'bg-blue-900 text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
               >
                 {cat}
               </button>
@@ -228,7 +226,7 @@ export default function EventsScheduleSection() {
                 <span>
                   {selectedDay === 1
                     ? 'Day 1 · 28 November 2026 · 4:00 PM – 7:00 PM'
-                    : 'Day 2 · 29 November 2026 · 3 Sessions per Cluster'}
+                    : 'Day 2 · 29 November 2026 · 2 Sessions per Cluster'}
                 </span>
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl font-extrabold text-white">
@@ -254,16 +252,16 @@ export default function EventsScheduleSection() {
                 <ul className="space-y-3 text-sm text-slate-200">
                   <li className="flex items-start justify-between gap-3 border-b border-white/10 pb-2">
                     <span>BLS</span>
-                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">4–5 PM</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">4:00–5:30 PM</span>
                   </li>
                   <li className="flex items-start justify-between gap-3 border-b border-white/10 pb-2">
                     <span>Fracture Management</span>
-                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">5–6 PM</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">5:30–7:00 PM</span>
                   </li>
-                  <li className="flex items-start justify-between gap-3">
+                  {/* <li className="flex items-start justify-between gap-3">
                     <span>POCUS</span>
                     <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">6–7 PM</span>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
 
@@ -276,16 +274,12 @@ export default function EventsScheduleSection() {
                 </h4>
                 <ul className="space-y-3 text-sm text-slate-200">
                   <li className="flex items-start justify-between gap-3 border-b border-white/10 pb-2">
-                    <span>Neonatal Resuscitation</span>
-                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">4–5 PM</span>
-                  </li>
-                  <li className="flex items-start justify-between gap-3 border-b border-white/10 pb-2">
                     <span>BLS</span>
-                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">5–6 PM</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">4:00–5:30 PM</span>
                   </li>
                   <li className="flex items-start justify-between gap-3">
-                    <span>Tracheostomy</span>
-                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">6–7 PM</span>
+                    <span>POCUS</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">5:30–7:00 PM</span>
                   </li>
                 </ul>
               </div>
@@ -300,15 +294,11 @@ export default function EventsScheduleSection() {
                 <ul className="space-y-3 text-sm text-slate-200">
                   <li className="flex items-start justify-between gap-3 border-b border-white/10 pb-2">
                     <span>Suturing &amp; Surgical Skills</span>
-                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">4–5 PM</span>
-                  </li>
-                  <li className="flex items-start justify-between gap-3 border-b border-white/10 pb-2">
-                    <span>ECG Made Easy</span>
-                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">5–6 PM</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">4:00–5:30 PM</span>
                   </li>
                   <li className="flex items-start justify-between gap-3">
-                    <span>Active Management of Labor</span>
-                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">6–7 PM</span>
+                    <span>FNAC</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">5:30–7:00 PM</span>
                   </li>
                 </ul>
               </div>
@@ -323,13 +313,14 @@ export default function EventsScheduleSection() {
                   Dopamine Drive
                 </h4>
                 <ul className="space-y-3 text-sm text-slate-200">
-                  <li className="border-b border-white/10 pb-2">
-                    Safe Injection Practices &amp; Transfusion Procedures
+                  <li className="flex items-start justify-between gap-3">
+                    <span>Neonatal Resuscitation</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">4:00–5:30 PM</span>
                   </li>
-                  <li className="border-b border-white/10 pb-2">
-                    OAE Test &amp; Stroboscopy
+                  <li className="flex items-start justify-between gap-3">
+                    <span>ECG Made Easy</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">5:30–7:00 PM</span>
                   </li>
-                  <li>Pulmonary Function Test</li>
                 </ul>
               </div>
 
@@ -341,13 +332,14 @@ export default function EventsScheduleSection() {
                   Atropine Alert
                 </h4>
                 <ul className="space-y-3 text-sm text-slate-200">
-                  <li className="border-b border-white/10 pb-2">
-                    Advanced Trauma Care
+                  <li className="flex items-start justify-between gap-3">
+                    <span>Pulmonary Function Testing &amp; Spirometry</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">4:00–5:30 PM</span>
                   </li>
-                  <li className="border-b border-white/10 pb-2">
-                    OT Table Dynamics &amp; Anaesthetic Precision
+                  <li className="flex items-start justify-between gap-3">
+                    <span>Tracheostomy</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">5:30–7:00 PM</span>
                   </li>
-                  <li>CT Scan &amp; MRI</li>
                 </ul>
               </div>
 
@@ -359,11 +351,14 @@ export default function EventsScheduleSection() {
                   Linezolid Line
                 </h4>
                 <ul className="space-y-3 text-sm text-slate-200">
-                  <li className="border-b border-white/10 pb-2">BLS</li>
-                  <li className="border-b border-white/10 pb-2">
-                    Pediatric Life Support
+                  <li className="flex items-start justify-between gap-3">
+                    <span>Labour Simulation</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">4:00–5:30 PM</span>
                   </li>
-                  <li>Biopsy / FNAC</li>
+                  <li className="flex items-start justify-between gap-3">
+                    <span>Injection Techniques &amp; IV Cannulation</span>
+                    <span className="font-mono text-xs text-slate-400 shrink-0 tabular-nums">5:30–7:00 PM</span>
+                  </li>
                 </ul>
               </div>
             </div>

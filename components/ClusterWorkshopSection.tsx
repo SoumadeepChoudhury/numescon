@@ -75,17 +75,20 @@ export default function ClusterWorkshopSection({
                 {ws.leadFaculty}
               </strong>
               <span className="text-slate-600 text-xs block">
-                {ws.facultyDesignation} · {ws.facultyAffiliation}
+                {ws.facultyDesignation}
+              </span>
+              <span className="text-slate-600 text-xs block">
+                {ws.facultyAffiliation}
               </span>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200 text-slate-600 text-xs">
+          {/* <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200 text-slate-600 text-xs">
             <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             <span>{ws.hall}</span>
             <span aria-hidden="true" className="text-slate-300">·</span>
             <span className="font-semibold text-slate-900">{ws.duration}</span>
-          </div>
+          </div> */}
         </div>
 
         {/* Learning Outcomes */}
@@ -138,16 +141,14 @@ export default function ClusterWorkshopSection({
               <button
                 key={key}
                 onClick={() => setSelectedClusterId(key)}
-                className={`relative flex items-center gap-3.5 p-4 sm:p-5 rounded-xl text-left transition-all cursor-pointer active:scale-[0.99] ${
-                  isSelected
-                    ? 'bg-white shadow-sm text-slate-950 font-bold border-2 border-blue-900/80 sm:border-transparent'
-                    : 'text-slate-600 hover:text-slate-950 hover:bg-white/60 font-semibold border-2 border-transparent'
-                }`}
+                className={`relative flex items-center gap-3.5 p-4 sm:p-5 rounded-xl text-left transition-all cursor-pointer active:scale-[0.99] ${isSelected
+                  ? 'bg-white shadow-sm text-slate-950 font-bold border-2 border-blue-900/80 sm:border-transparent'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-white/60 font-semibold border-2 border-transparent'
+                  }`}
               >
                 <div
-                  className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                    isSelected ? 'bg-blue-50 text-blue-900' : 'bg-slate-200/80 text-slate-700'
-                  }`}
+                  className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors ${isSelected ? 'bg-blue-50 text-blue-900' : 'bg-slate-200/80 text-slate-700'
+                    }`}
                 >
                   {getClusterIcon(key)}
                 </div>
@@ -157,7 +158,7 @@ export default function ClusterWorkshopSection({
                       Cluster {key}
                     </span>
                     <span className="text-xs text-slate-500 font-medium whitespace-nowrap">
-                      6 Workshops
+                      4 Workshops
                     </span>
                   </div>
                   <span className="block text-base sm:text-lg font-extrabold font-serif leading-tight text-slate-950 truncate mt-0.5">
@@ -223,31 +224,28 @@ export default function ClusterWorkshopSection({
           <div className="flex items-center gap-1.5 p-1.5 bg-slate-100 rounded-xl">
             <button
               onClick={() => setDayFilter('all')}
-              className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap ${
-                dayFilter === 'all'
-                  ? 'bg-white text-slate-950 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950'
-              }`}
+              className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap ${dayFilter === 'all'
+                ? 'bg-white text-slate-950 shadow-xs'
+                : 'text-slate-600 hover:text-slate-950'
+                }`}
             >
               Both Days (6)
             </button>
             <button
               onClick={() => setDayFilter(1)}
-              className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap ${
-                dayFilter === 1
-                  ? 'bg-white text-slate-950 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950'
-              }`}
+              className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap ${dayFilter === 1
+                ? 'bg-white text-slate-950 shadow-xs'
+                : 'text-slate-600 hover:text-slate-950'
+                }`}
             >
               Day 1 · 28 Nov (3)
             </button>
             <button
               onClick={() => setDayFilter(2)}
-              className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap ${
-                dayFilter === 2
-                  ? 'bg-white text-slate-950 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950'
-              }`}
+              className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap ${dayFilter === 2
+                ? 'bg-white text-slate-950 shadow-xs'
+                : 'text-slate-600 hover:text-slate-950'
+                }`}
             >
               Day 2 · 29 Nov (3)
             </button>
@@ -265,11 +263,11 @@ export default function ClusterWorkshopSection({
                 </h4>
               </div>
               <span className="text-xs sm:text-sm font-mono font-semibold text-slate-500 tabular-nums">
-                4:00 PM – 7:00 PM · 3 Practical Workshops
+                4:00 PM – 7:00 PM · 2 Practical Workshops
               </span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
               {day1Workshops.map((ws, idx) => renderWorkshopCard(ws, idx))}
             </div>
           </div>
@@ -286,11 +284,11 @@ export default function ClusterWorkshopSection({
                 </h4>
               </div>
               <span className="text-xs sm:text-sm font-mono font-semibold text-slate-500 tabular-nums">
-                3 Practical Workshops · Exact Hourly Timings TBA
+                2 Practical Workshops · Exact Hourly Timings TBA
               </span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
               {day2Workshops.map((ws, idx) => renderWorkshopCard(ws, idx))}
             </div>
           </div>
