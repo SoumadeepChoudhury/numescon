@@ -569,7 +569,7 @@ export const SCHEDULE_EVENTS: ScheduleEvent[] = [
     speaker: 'Dr Tapas Bandopadhyay',
     speakerRole: 'MD(Medicine, Cal) , FACP, FRCP(Glasgow), FICP,FIACM FDI HOD, General Medicine. Dept of Internal Medicine Manipal Hospital EM Bypass Recipient of Internist of the year, 2026 ACP INDIA chapter Vice chairman API West Bengal chapter Vice president CCDSI(National) Ex Secretary API wb chapter',
     description:
-      'Parallel afternoon workshop schedule for Cluster C (Serotonin Surge) delegates covering the following.',
+      'Day 2 plenary academic session delivered by Dr Tapas Bandopadhyay at the NBMC&H Auditorium.',
     highlights: [
       '4:00–5:30 PM: Suturing & Surgical Skills',
       '5:30–7:00 PM: FNAC'
