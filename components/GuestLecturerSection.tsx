@@ -215,7 +215,7 @@ export default function GuestLecturerSection({
                   onClick={onViewSchedule}
                   className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 text-sm sm:text-base font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-2xl shadow-md transition-all cursor-pointer group whitespace-nowrap"
                 >
-                  <span>View Full 28 Nov Schedule</span>
+                  <span>View Full Schedule</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
               )}
