@@ -123,7 +123,7 @@ export default function RegistrationSection({
     city: 'Siliguri',
     foodPreference: 'Vegetarian',
     clusterId: initialClusterId,
-    paymentTransactionId: '',
+    paymentTransactionId: 'Nil',
     paymentReceiptUrl: '',
     paymentReceiptName: '',
   });
@@ -173,11 +173,11 @@ export default function RegistrationSection({
     }
 
     if (step === 4) {
-      if (!formData.paymentTransactionId.trim()) {
-        errors.paymentTransactionId = 'UPI Transaction ID / UTR number is required.';
-      } else if (formData.paymentTransactionId.trim().length < 6) {
-        errors.paymentTransactionId = 'Please enter a valid UPI Transaction ID / UTR number.';
-      }
+      // if (!formData.paymentTransactionId.trim()) {
+      //   errors.paymentTransactionId = 'UPI Transaction ID / UTR number is required.';
+      // } else if (formData.paymentTransactionId.trim().length < 6) {
+      //   errors.paymentTransactionId = 'Please enter a valid UPI Transaction ID / UTR number.';
+      // }
       if (!formData.paymentReceiptUrl) {
         errors.paymentReceipt =
           'Payment receipt screenshot is mandatory. Upload your payment screenshot to proceed.';
@@ -338,6 +338,8 @@ export default function RegistrationSection({
         'numescon_2026_registrations',
         JSON.stringify([record, ...existingList])
       );
+      record.paymentTransactionId = record.paymentTransactionId || 'Nil';
+      console.log("====>", record.paymentTransactionId);
       const res = await fetch('/api/admin-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -386,7 +388,7 @@ export default function RegistrationSection({
       city: 'Siliguri',
       foodPreference: 'Vegetarian',
       clusterId: 'A',
-      paymentTransactionId: '',
+      paymentTransactionId: 'Nil',
       paymentReceiptUrl: '',
       paymentReceiptName: '',
     });
@@ -600,8 +602,10 @@ export default function RegistrationSection({
             Register for Cluster Workshops
           </h2>
           <p className="mt-3 text-base sm:text-xl text-slate-600 font-normal leading-relaxed text-balance">
-            Registration is required exclusively for the 3 hands-on workshop clusters (Dopamine Drive, Adrenaline Rush, and Serotonin Surge). Guest lectures and auditorium talks are open-entry and require no registration.
+            Registration is required exclusively for the 4 hands-on workshop clusters (Dopamine Drive, Adrenaline Rush, and Serotonin Surge). Guest lectures and auditorium talks are open-entry and require no registration.
           </p>
+          <br />
+          <p><b>NOTE: Cluster allotment will be strictly on a First Come, First Served basis, with each cluster having a maximum capacity of 50 participants only. Once a cluster reaches its capacity, any additional participants may be automatically allotted to another randomly selected cluster with available seats, subject to availability. Participants are therefore encouraged to complete their registration at the earliest to secure their preferred cluster.</b></p>
           <div className="mt-5 inline-flex flex-wrap items-center justify-center gap-2.5 px-5 py-2.5 bg-white border border-blue-200 rounded-2xl shadow-2xs text-sm text-slate-800">
             <span className="font-bold text-blue-900 uppercase tracking-wider text-xs">
               Workshop Registration Fee
@@ -611,7 +615,7 @@ export default function RegistrationSection({
             </span>
             <span className="font-serif text-xl font-extrabold text-slate-950">₹300</span>
             <span className="text-xs text-slate-600">
-              per delegate (covers all 6 cluster workshops across 28 &amp; 29 Nov)
+              per delegate (covers all 4 cluster workshops across 28 &amp; 29 Nov)
             </span>
           </div>
         </div>
@@ -1346,7 +1350,7 @@ export default function RegistrationSection({
                     </div>
 
                     {/* Transaction / UTR ID Input */}
-                    <div>
+                    {/* <div>
                       <label className="block text-sm font-bold text-slate-800 mb-2">
                         UPI Transaction ID / UTR Reference Number <span className="text-rose-500">*</span>
                       </label>
@@ -1372,7 +1376,7 @@ export default function RegistrationSection({
                           {formErrors.paymentTransactionId}
                         </span>
                       )}
-                    </div>
+                    </div> */}
 
                     {/* Receipt Screenshot Dropzone / Preview */}
                     <div>
@@ -1628,9 +1632,9 @@ export default function RegistrationSection({
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                           <span>₹300 Workshop Fee · Payment Receipt Uploaded</span>
                         </span>
-                        <div className="text-sm font-bold text-slate-950 mt-0.5 font-mono">
+                        {/* <div className="text-sm font-bold text-slate-950 mt-0.5 font-mono">
                           UTR / Ref: {formData.paymentTransactionId}
-                        </div>
+                        </div> */}
                         <div className="text-xs text-slate-600 mt-0.5">
                           {formData.paymentReceiptName || 'Payment screenshot attached'}
                         </div>
