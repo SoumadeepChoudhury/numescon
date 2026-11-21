@@ -71,7 +71,7 @@ export interface PaymentQrConfig {
 
 export const DEFAULT_PAYMENT_CONFIG: PaymentQrConfig = {
   paymentQrUrl: null,
-  paymentUpiId: 'numescon2026.nbmch@sbi',
+  paymentUpiId: 'northbengalmedicalcollegeplasmacommittee@sbi',
   paymentAccountName: 'NUMESCON 2026 Workshop Committee · NBMC&H',
 };
 
