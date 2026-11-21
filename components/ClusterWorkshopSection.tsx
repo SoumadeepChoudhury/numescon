@@ -128,7 +128,7 @@ export default function ClusterWorkshopSection({
             Choose Your Workshop Cluster
           </h2>
           <p className="mt-4 text-lg sm:text-xl text-slate-600 font-normal leading-relaxed text-balance">
-            NUMESCON 2026 features three curated practical tracks at North Bengal Medical College &amp; Hospital — <strong>Dopamine Drive</strong>, <strong>Atropine Alert</strong>, and <strong>Linezolid Line</strong>. Each cluster delivers 3 hands-on workshops on Day 1 (28 Nov) and 3 hands-on workshops on Day 2 (29 Nov).
+            NUMESCON 2026 features three curated practical tracks at North Bengal Medical College &amp; Hospital — <strong>Dopamine Drive</strong>, <strong>Adrenaline Rush</strong>, and <strong>Serotonin Surge</strong>. Each cluster delivers 3 hands-on workshops on Day 1 (28 Nov) and 3 hands-on workshops on Day 2 (29 Nov).
           </p>
         </div>
 

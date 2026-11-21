@@ -270,7 +270,7 @@ export default function EventsScheduleSection() {
                   CLUSTER B
                 </span>
                 <h4 className="font-serif text-xl font-bold text-white mb-4">
-                  Atropine Alert
+                  Adrenaline Rush
                 </h4>
                 <ul className="space-y-3 text-sm text-slate-200">
                   <li className="flex items-start justify-between gap-3 border-b border-white/10 pb-2">
@@ -289,7 +289,7 @@ export default function EventsScheduleSection() {
                   CLUSTER C
                 </span>
                 <h4 className="font-serif text-xl font-bold text-white mb-4">
-                  Linezolid Line
+                  Serotonin Surge
                 </h4>
                 <ul className="space-y-3 text-sm text-slate-200">
                   <li className="flex items-start justify-between gap-3 border-b border-white/10 pb-2">
@@ -329,7 +329,7 @@ export default function EventsScheduleSection() {
                   CLUSTER B
                 </span>
                 <h4 className="font-serif text-xl font-bold text-white mb-4">
-                  Atropine Alert
+                  Adrenaline Rush
                 </h4>
                 <ul className="space-y-3 text-sm text-slate-200">
                   <li className="flex items-start justify-between gap-3">
@@ -348,7 +348,7 @@ export default function EventsScheduleSection() {
                   CLUSTER C
                 </span>
                 <h4 className="font-serif text-xl font-bold text-white mb-4">
-                  Linezolid Line
+                  Serotonin Surge
                 </h4>
                 <ul className="space-y-3 text-sm text-slate-200">
                   <li className="flex items-start justify-between gap-3">

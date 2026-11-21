@@ -117,7 +117,7 @@ export default function HeroSection({
                   3 Clusters
                 </span>
                 <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 mt-2 block">
-                  Dopamine Drive · Atropine Alert · Linezolid Line
+                  Dopamine Drive · Adrenaline Rush · Serotonin Surge
                 </span>
               </div>
 

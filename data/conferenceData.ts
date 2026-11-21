@@ -163,15 +163,15 @@ export const CLUSTERS: Record<ClusterId, ClusterInfo> = {
   },
   B: {
     id: 'B',
-    name: 'Atropine Alert',
-    title: 'Cluster B: Atropine Alert',
+    name: 'Adrenaline Rush',
+    title: 'Cluster B: Adrenaline Rush',
     tagline: 'Critical Resuscitation, Bedside Imaging, Respiratory & Surgical Airway',
     focusArea: 'BLS, USG (Radiology), PFT, ENT (Tracheostomy)',
     themeColor: 'text-blue-700',
     badgeBg: 'bg-blue-50 text-blue-800 border-blue-200',
     borderColor: 'border-blue-200 hover:border-blue-300',
     description:
-      'Atropine Alert is engineered for acute diagnostics and airway precision. Master Basic Life Support and Bedside Ultrasound (USG / Radiology) on Day 1, followed by Pulmonary Function Testing (PFT) and ENT Tracheostomy on Day 2.',
+      'Adrenaline Rush is engineered for acute diagnostics and airway precision. Master Basic Life Support and Bedside Ultrasound (USG / Radiology) on Day 1, followed by Pulmonary Function Testing (PFT) and ENT Tracheostomy on Day 2.',
     idealFor:
       'Students drawn to Emergency Medicine, Radiodiagnosis, Pulmonary Medicine, ENT, and Critical Care.',
     workshops: [
@@ -228,7 +228,7 @@ export const CLUSTERS: Record<ClusterId, ClusterInfo> = {
         hall: 'Respiratory Diagnostics Lab · NBMC&H',
         timeSlot: '29 Nov 2026 · Session 01',
         duration: 'Hands-on Spirometry Module',
-        prerequisites: 'Open to all registered Atropine Alert delegates.',
+        prerequisites: 'Open to all registered Adrenaline Rush delegates.',
         learningOutcomes: [
           'Coach patients to achieve repeatable, ATS-acceptable forced expiratory spirometry maneuvers',
           'Differentiate obstructive, restrictive, and mixed ventilatory defects using FEV1/FVC ratios',
@@ -258,15 +258,15 @@ export const CLUSTERS: Record<ClusterId, ClusterInfo> = {
   },
   C: {
     id: 'C',
-    name: 'Linezolid Line',
-    title: 'Cluster C: Linezolid Line',
+    name: 'Serotonin Surge',
+    title: 'Cluster C: Serotonin Surge',
     tagline: 'Operative Craft, Tissue Diagnostics, Obstetrics & Clinical Safety',
     focusArea: 'FNAC (Biopsy), Suturing, Labour (OBG), Safe Injection Practices',
     themeColor: 'text-emerald-700',
     badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
     borderColor: 'border-emerald-200 hover:border-emerald-300',
     description:
-      'Linezolid Line unites hands-on procedural dexterity with core ward essentials. Experience FNAC (Biopsy) and Suturing on Day 1, followed by Labour (OBG) management and Safe Injection Practices on Day 2.',
+      'Serotonin Surge unites hands-on procedural dexterity with core ward essentials. Experience FNAC (Biopsy) and Suturing on Day 1, followed by Labour (OBG) management and Safe Injection Practices on Day 2.',
     idealFor:
       'Undergraduates and interns aiming to sharpen diagnostic pathology sampling, surgical suturing, obstetric delivery management, and safe parenteral procedures.',
     workshops: [
@@ -322,7 +322,7 @@ export const CLUSTERS: Record<ClusterId, ClusterInfo> = {
         hall: 'OB-GYN Skills Suite · NBMC&H',
         timeSlot: '29 Nov 2026 · Session 01',
         duration: 'Hands-on Obstetric Module',
-        prerequisites: 'Open to all registered Linezolid Line delegates.',
+        prerequisites: 'Open to all registered Serotonin Surge delegates.',
         learningOutcomes: [
           'Assess cervical dilation, descent, and uterine contractions systematically on a partogram',
           'Execute Active Management of the Third Stage of Labor (uterotonics, controlled cord traction)',
@@ -341,7 +341,7 @@ export const CLUSTERS: Record<ClusterId, ClusterInfo> = {
         hall: 'Clinical Procedures Lab · NBMC&H',
         timeSlot: '29 Nov 2026 · Session 02',
         duration: 'Hands-on Clinical Module',
-        prerequisites: 'Open to all registered Linezolid Line delegates.',
+        prerequisites: 'Open to all registered Serotonin Surge delegates.',
         learningOutcomes: [
           'Apply WHO safe injection guidelines, aseptic site preparation, and sharps disposal',
           'Practice safe intramuscular, intravenous, and subcutaneous administration techniques',
@@ -428,7 +428,7 @@ export const SCHEDULE_EVENTS: ScheduleEvent[] = [
     speaker: 'Department of ENT · NBMC&H',
     speakerRole: 'Video-Endoscopic Clinical Demonstration',
     description:
-      'Interactive video-based clinical demonstration covering otorhinolaryngology (ENT) diagnostics, endoscopic anatomy, and surgical procedures.',
+      'Interactive video-based clinical demonstration covering the following.',
   },
   {
     id: 'ev-105',
@@ -525,14 +525,14 @@ export const SCHEDULE_EVENTS: ScheduleEvent[] = [
     dateStr: '28 November 2026',
     startTime: '4:00 PM',
     endTime: '7:00 PM',
-    slotBadge: 'CLUSTER B · ATROPINE ALERT',
-    title: 'Day 1 Practical Workshops — Atropine Alert',
+    slotBadge: 'CLUSTER B · Adrenaline Rush',
+    title: 'Day 1 Practical Workshops — Adrenaline Rush',
     category: 'Workshop',
     venue: 'NBMC&H Practical Workshop Halls',
     speaker: 'NBMC&H Workshop Faculty (TBA)',
     speakerRole: '3 Hourly Hands-On Stations (4–5 PM, 5–6 PM, 6–7 PM)',
     description:
-      'Parallel afternoon workshop schedule for Cluster B (Atropine Alert) delegates covering neonatal resuscitation, life support, and surgical airway skills.',
+      'Parallel afternoon workshop schedule for Cluster B (Adrenaline Rush) delegates covering the following:',
     highlights: ['4:00–5:30 PM: BLS', '5:30–7:00 PM: POCUS'],
   },
   {
@@ -541,14 +541,14 @@ export const SCHEDULE_EVENTS: ScheduleEvent[] = [
     dateStr: '28 November 2026',
     startTime: '4:00 PM',
     endTime: '7:00 PM',
-    slotBadge: 'CLUSTER C · LINEZOLID LINE',
-    title: 'Day 1 Practical Workshops — Linezolid Line',
+    slotBadge: 'CLUSTER C · Serotonin Surge',
+    title: 'Day 1 Practical Workshops — Serotonin Surge',
     category: 'Workshop',
     venue: 'NBMC&H Practical Workshop Halls',
     speaker: 'NBMC&H Workshop Faculty (TBA)',
     speakerRole: '3 Hourly Hands-On Stations (4–5 PM, 5–6 PM, 6–7 PM)',
     description:
-      'Parallel afternoon workshop schedule for Cluster C (Linezolid Line) delegates covering operative suturing, 12-lead ECG interpretation, and active labor management.',
+      'Parallel afternoon workshop schedule for Cluster C (Serotonin Surge) delegates covering the following.',
     highlights: [
       '4:00–5:30 PM: Suturing & Surgical Skills',
       '5:30–7:00 PM: FNAC'
@@ -581,14 +581,14 @@ export const SCHEDULE_EVENTS: ScheduleEvent[] = [
     dateStr: '29 November 2026',
     startTime: 'Day 2',
     endTime: '3 Sessions',
-    slotBadge: 'CLUSTER B · ATROPINE ALERT',
-    title: 'Day 2 Practical Workshops — Atropine Alert',
+    slotBadge: 'CLUSTER B · Adrenaline Rush',
+    title: 'Day 2 Practical Workshops — Adrenaline Rush',
     category: 'Workshop',
     venue: 'NBMC&H Practical Workshop Halls',
     speaker: 'NBMC&H Workshop Faculty (TBA)',
     speakerRole: '3 Confirmed Day 2 Modules',
     description:
-      'Day 2 trauma, operating theatre, and cross-sectional radiology modules for Cluster B (Atropine Alert) delegates.',
+      'Day 2 trauma, operating theatre, and cross-sectional radiology modules for Cluster B (Adrenaline Rush) delegates.',
     highlights: [
       '4:00–5:30 PM: Pulmonary Function Test (PFT) and Spirometry',
       '5:30–7:00 PM: Tracheostomy & Surgical Airway Management',
@@ -600,14 +600,14 @@ export const SCHEDULE_EVENTS: ScheduleEvent[] = [
     dateStr: '29 November 2026',
     startTime: 'Day 2',
     endTime: '3 Sessions',
-    slotBadge: 'CLUSTER C · LINEZOLID LINE',
-    title: 'Day 2 Practical Workshops — Linezolid Line',
+    slotBadge: 'CLUSTER C · Serotonin Surge',
+    title: 'Day 2 Practical Workshops — Serotonin Surge',
     category: 'Workshop',
     venue: 'NBMC&H Practical Workshop Halls',
     speaker: 'NBMC&H Workshop Faculty (TBA)',
     speakerRole: '3 Confirmed Day 2 Modules',
     description:
-      'Day 2 life support and diagnostic tissue sampling modules for Cluster C (Linezolid Line) delegates.',
+      'Day 2 life support and diagnostic tissue sampling modules for Cluster C (Serotonin Surge) delegates.',
     highlights: ['4:00–5:30 PM: Labour Simulation', '5:30–7:00 PM: Injection Techniques & IV Cannulation'],
   },
 ];

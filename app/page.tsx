@@ -72,7 +72,7 @@ export default function HomePage() {
         onViewClusters={() => scrollToSection('clusters')}
       />
 
-      {/* 3 Named Workshop Clusters (Dopamine Drive, Atropine Alert, Linezolid Line) */}
+      {/* 3 Named Workshop Clusters (Dopamine Drive, Adrenaline Rush, Serotonin Surge) */}
       <ClusterWorkshopSection
         onSelectClusterForRegistration={handleSelectClusterForRegistration}
       />

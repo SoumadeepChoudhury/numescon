@@ -354,7 +354,7 @@ export default function RegistrationSection({
       }
 
       setConfirmedPass(newPass);
-      
+
     } catch (err) {
       console.error(err);
     }
@@ -600,7 +600,7 @@ export default function RegistrationSection({
             Register for Cluster Workshops
           </h2>
           <p className="mt-3 text-base sm:text-xl text-slate-600 font-normal leading-relaxed text-balance">
-            Registration is required exclusively for the 3 hands-on workshop clusters (Dopamine Drive, Atropine Alert, and Linezolid Line). Guest lectures and auditorium talks are open-entry and require no registration.
+            Registration is required exclusively for the 3 hands-on workshop clusters (Dopamine Drive, Adrenaline Rush, and Serotonin Surge). Guest lectures and auditorium talks are open-entry and require no registration.
           </p>
           <div className="mt-5 inline-flex flex-wrap items-center justify-center gap-2.5 px-5 py-2.5 bg-white border border-blue-200 rounded-2xl shadow-2xs text-sm text-slate-800">
             <span className="font-bold text-blue-900 uppercase tracking-wider text-xs">

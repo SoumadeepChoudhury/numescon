@@ -16,7 +16,7 @@ export default function PolicyModals({ activePolicy, onClose }: PolicyModalsProp
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-xs animate-in fade-in duration-150">
       <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[88vh] overflow-y-auto shadow-2xl border border-slate-200 animate-in zoom-in-95 duration-150 flex flex-col justify-between">
-        
+
         {/* Top Header */}
         <div className="px-6 sm:px-8 py-5 bg-slate-950 text-white flex items-center justify-between sticky top-0 z-10 border-b border-slate-800">
           <div className="flex items-center gap-3">
@@ -46,7 +46,7 @@ export default function PolicyModals({ activePolicy, onClose }: PolicyModalsProp
 
         {/* Modal Content */}
         <div className="p-6 sm:p-8 space-y-6 text-slate-700 leading-relaxed text-sm sm:text-base">
-          
+
           {/* TERMS OF REGISTRATION */}
           {activePolicy === 'terms' && (
             <>
@@ -74,7 +74,7 @@ export default function PolicyModals({ activePolicy, onClose }: PolicyModalsProp
                   Registration is required exclusively for participation in the hands-on practical workshop clusters. Guest lectures (including Dr. Deepak Marwah&apos;s session), scientific talks, and general auditorium events are open-entry and do not require separate registration. Confirmed workshop registration covers:
                 </p>
                 <ul className="list-disc pl-5 space-y-1.5 text-sm text-slate-600">
-                  <li>Hands-on participation in your selected workshop cluster (Cluster A: Dopamine Drive, Cluster B: Atropine Alert, or Cluster C: Linezolid Line — 3 workshops each day).</li>
+                  <li>Hands-on participation in your selected workshop cluster (Cluster A: Dopamine Drive, Cluster B: Adrenaline Rush, or Cluster C: Serotonin Surge — 3 workshops each day).</li>
                   <li>Practical workbench instruments, simulation consumables, and faculty-guided lab sessions.</li>
                   <li>Official workshop pass, lanyard credential, and printed workshop schedule booklet.</li>
                   <li>Official NUMESCON 2026 workshop participation certificate.</li>
