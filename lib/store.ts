@@ -70,7 +70,7 @@ export interface PaymentQrConfig {
 }
 
 export const DEFAULT_PAYMENT_CONFIG: PaymentQrConfig = {
-  paymentQrUrl: null,
+  paymentQrUrl: 'https://ozojenmluhcnekupjnfe.supabase.co/storage/v1/object/public/payment-qr/1795162040987-9fo39q-whatsapp-image-2026-11-19-at-19.52.42.webp',
   paymentUpiId: 'northbengalmedicalcollegeplasmacommittee@sbi',
   paymentAccountName: 'NUMESCON 2026 Workshop Committee · NBMC&H',
 };
