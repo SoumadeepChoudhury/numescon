@@ -545,7 +545,7 @@ export default function RegistrationSection({
                   </div>
                   {passData.paymentTransactionId && (
                     <div className="bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-lg text-emerald-900 font-medium">
-                      Workshop Fee: <strong>₹300</strong> · Receipt Ref:{' '}
+                      Workshop Fee: <strong>₹300</strong>
                       <strong className="font-mono">{passData.paymentTransactionId}</strong>
                     </div>
                   )}
