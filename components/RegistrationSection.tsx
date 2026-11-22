@@ -73,7 +73,7 @@ export default function RegistrationSection({
   const [receiptPreviewModal, setReceiptPreviewModal] = useState(false);
   const [loadingPaymentConfig, setLoadingPaymentConfig] = useState(true);
   const [qrLoadError, setQrLoadError] = useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -297,6 +297,7 @@ export default function RegistrationSection({
 
   const handleSubmitRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     if (!validateStep(3)) {
       setCurrentStep(3);
       return;
@@ -326,6 +327,7 @@ export default function RegistrationSection({
     };
 
     try {
+      setIsSubmitting(true);
       localStorage.setItem('numescon_2026_pass', JSON.stringify(newPass));
       const existingRaw = localStorage.getItem('numescon_2026_registrations');
       const existingList = existingRaw ? JSON.parse(existingRaw) : [];
@@ -359,6 +361,8 @@ export default function RegistrationSection({
 
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsSubmitting(false);
     }
     if (onPassGenerated) onPassGenerated(newPass);
   };
@@ -1710,10 +1714,11 @@ export default function RegistrationSection({
 
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="inline-flex items-center gap-2.5 px-8 py-4 bg-blue-900 hover:bg-blue-800 text-white rounded-2xl text-base font-bold shadow-md hover:shadow-lg transition-all cursor-pointer"
                   >
                     <Award className="w-5 h-5" />
-                    <span>Issue Official Workshop Pass &amp; Badge</span>
+                    <span>{isSubmitting ? 'Processing...' : 'Issue Official Workshop Pass & Badge'}</span>
                   </button>
                 </div>
               </div>
