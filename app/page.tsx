@@ -48,6 +48,15 @@ export default function HomePage() {
     scrollToSection('registration');
   };
 
+  const handleOpenPolicy = (type: 'terms' | 'integrity' | 'safety') => {
+    if (type === 'terms') {
+      window.open('/terms', '_blank', 'noopener,noreferrer');
+      return;
+    }
+    // Keep your existing modal/logic for 'integrity' and 'safety'
+    setActivePolicy(type);
+  };
+
   return (
     <main className="min-h-screen w-full bg-[#F8FAFC] text-slate-900 flex flex-col font-sans selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
       {/* Top Bar Navigation */}
@@ -104,7 +113,7 @@ export default function HomePage() {
       <Footer
         onNavigate={scrollToSection}
         onOpenRegistration={() => scrollToSection('registration')}
-        onOpenPolicy={(policy) => setActivePolicy(policy)}
+        onOpenPolicy={handleOpenPolicy}
       />
 
       {/* Dedicated Policy Dialogs for North Bengal Medical College */}
