@@ -457,7 +457,7 @@ export const SCHEDULE_EVENTS: ScheduleEvent[] = [
     speaker: 'Dr. Pallabi Dasgupta',
     speakerRole: 'Featured Academic Speaker',
     description:
-      'Midday plenary academic address delivered by Partha Sarathi Bhattacharya at the NBMC&H Auditorium.',
+      'Midday plenary academic address delivered by Dr Pallabi Dasgupta at the NBMC&H Auditorium.',
   },
   {
     id: 'ev-107',

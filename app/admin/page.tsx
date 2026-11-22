@@ -111,6 +111,7 @@ export default function AdminDashboardPage() {
   // Student roster filters
   const [clusterFilter, setClusterFilter] = useState<'ALL' | 'A' | 'B' | 'C'>('ALL');
   const [paymentFilter, setPaymentFilter] = useState<'ALL' | PaymentVerificationStatus>('ALL');
+  const [showDuplicatesOnly, setShowDuplicatesOnly] = useState(false);
   const [studentSearch, setStudentSearch] = useState('');
   const [verificationRemarks, setVerificationRemarks] = useState('');
   const [verifyingId, setVerifyingId] = useState<string | null>(null);
@@ -525,35 +526,47 @@ export default function AdminDashboardPage() {
     };
 
     const updated = [created, ...archivePhotos];
-    setArchivePhotos(updated);
     try {
-      await fetch('/api/admin-data', {
+      const res = await fetch('/api/admin-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'save_archive_photos', archivePhotos: updated }),
       });
-      showToast('New archive photo published to the website!');
+      const data = await res.json();
+      if (!res.ok) {
+        showToast(data.error || 'Failed to save archive photo to database.');
+        return;
+      }
+      setArchivePhotos(Array.isArray(data.archivePhotos) ? data.archivePhotos : updated);
+      showToast('New archive photo saved to Supabase and published to the website!');
       setNewArchiveTitle('');
       setNewArchiveStat('');
       setNewArchiveCaption('');
       setNewArchiveImageUrl('');
     } catch (err) {
       console.error(err);
+      showToast('Network error while saving archive photo.');
     }
   };
 
   const handleDeleteArchivePhoto = async (archiveId: string) => {
     const updated = archivePhotos.filter((p) => p.id !== archiveId);
-    setArchivePhotos(updated);
     try {
-      await fetch('/api/admin-data', {
+      const res = await fetch('/api/admin-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'save_archive_photos', archivePhotos: updated }),
       });
-      showToast('Archive photo removed from the public gallery.');
+      const data = await res.json();
+      if (!res.ok) {
+        showToast(data.error || 'Failed to delete archive photo.');
+        return;
+      }
+      setArchivePhotos(Array.isArray(data.archivePhotos) ? data.archivePhotos : updated);
+      showToast('Archive photo removed from database and storage.');
     } catch (err) {
       console.error(err);
+      showToast('Network error while deleting archive photo.');
     }
   };
 
@@ -563,13 +576,23 @@ export default function AdminDashboardPage() {
     const updated = archivePhotos.map((p) =>
       p.id === archiveId ? { ...p, imageUrl: uploaded.url } : p
     );
-    setArchivePhotos(updated);
-    await fetch('/api/admin-data', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'save_archive_photos', archivePhotos: updated }),
-    });
-    showToast(`Archive photo compressed & replaced (${uploaded.summary})!`);
+    try {
+      const res = await fetch('/api/admin-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save_archive_photos', archivePhotos: updated }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showToast(data.error || 'Failed to update archive photo in database.');
+        return;
+      }
+      setArchivePhotos(Array.isArray(data.archivePhotos) ? data.archivePhotos : updated);
+      showToast(`Archive photo compressed & replaced (${uploaded.summary})!`);
+    } catch (err) {
+      console.error(err);
+      showToast('Network error while replacing archive photo.');
+    }
   };
 
   // Trailer Video Handlers -> Supabase Storage (videos bucket)
@@ -804,21 +827,40 @@ export default function AdminDashboardPage() {
   const getPaymentStatus = (r: StudentRegistrationRecord): PaymentVerificationStatus =>
     r.paymentVerificationStatus || 'Pending Review';
 
-  const filteredRegistrations = registrations.filter((r) => {
-    const matchesCluster = clusterFilter === 'ALL' || r.clusterId === clusterFilter;
-    const matchesPayment = paymentFilter === 'ALL' || getPaymentStatus(r) === paymentFilter;
-    const q = studentSearch.toLowerCase();
-    const matchesQuery =
-      !q ||
-      r.fullName.toLowerCase().includes(q) ||
-      r.collegeName.toLowerCase().includes(q) ||
-      r.delegateId.toLowerCase().includes(q) ||
-      r.rollNumber.toLowerCase().includes(q) ||
-      (r.paymentTransactionId || '').toLowerCase().includes(q) ||
-      r.email.toLowerCase().includes(q) ||
-      r.phone.toLowerCase().includes(q);
-    return matchesCluster && matchesPayment && matchesQuery;
-  });
+  // Count how many times each normalized email appears
+  const emailCounts = registrations.reduce<Record<string, number>>((acc, r) => {
+    const key = (r.email || '').trim().toLowerCase();
+    if (key) acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+
+  const isDuplicateEmail = (email: string) =>
+    (emailCounts[(email || '').trim().toLowerCase()] || 0) > 1;
+
+  const duplicateRowsCount = registrations.filter((r) => isDuplicateEmail(r.email)).length;
+
+  const filteredRegistrations = registrations
+    .filter((r) => {
+      const matchesCluster = clusterFilter === 'ALL' || r.clusterId === clusterFilter;
+      const matchesPayment = paymentFilter === 'ALL' || getPaymentStatus(r) === paymentFilter;
+      const matchesDuplicate = !showDuplicatesOnly || isDuplicateEmail(r.email);
+      const q = studentSearch.toLowerCase();
+      const matchesQuery =
+        !q ||
+        r.fullName.toLowerCase().includes(q) ||
+        r.collegeName.toLowerCase().includes(q) ||
+        r.delegateId.toLowerCase().includes(q) ||
+        r.rollNumber.toLowerCase().includes(q) ||
+        (r.paymentTransactionId || '').toLowerCase().includes(q) ||
+        r.email.toLowerCase().includes(q) ||
+        r.phone.toLowerCase().includes(q);
+      return matchesCluster && matchesPayment && matchesDuplicate && matchesQuery;
+    })
+    .sort((a, b) =>
+      showDuplicatesOnly
+        ? a.email.trim().toLowerCase().localeCompare(b.email.trim().toLowerCase())
+        : 0
+    );
 
   // ============================================================================
   // VIEW 1: NOT AUTHENTICATED -> LOGIN / SIGNUP / FORGOT PASSWORD
@@ -1331,20 +1373,35 @@ export default function AdminDashboardPage() {
                       type="button"
                       onClick={() => setPaymentFilter(status)}
                       className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap tabular-nums ${paymentFilter === status
-                        ? status === 'Verified'
-                          ? 'bg-emerald-800 text-white'
-                          : status === 'Rejected'
-                            ? 'bg-rose-700 text-white'
-                            : status === 'Pending Review'
-                              ? 'bg-amber-600 text-white'
-                              : 'bg-slate-900 text-white'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                          ? status === 'Verified'
+                            ? 'bg-emerald-800 text-white'
+                            : status === 'Rejected'
+                              ? 'bg-rose-700 text-white'
+                              : status === 'Pending Review'
+                                ? 'bg-amber-600 text-white'
+                                : 'bg-slate-900 text-white'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                         }`}
                     >
                       {status === 'ALL' ? `All Receipts (${count})` : `${status} (${count})`}
                     </button>
                   );
                 })}
+
+                {/* NEW: Duplicate Emails Filter Button */}
+                <button
+                  type="button"
+                  onClick={() => setShowDuplicatesOnly((prev) => !prev)}
+                  className={`ml-auto px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap tabular-nums inline-flex items-center gap-1.5 ${showDuplicatesOnly
+                      ? 'bg-rose-700 text-white'
+                      : duplicateRowsCount > 0
+                        ? 'bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100'
+                        : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                    }`}
+                >
+                  <AlertCircle className="w-3.5 h-3.5" />
+                  <span>Duplicate Emails ({duplicateRowsCount})</span>
+                </button>
               </div>
             </div>
 

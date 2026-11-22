@@ -623,26 +623,60 @@ export async function POST(req: NextRequest) {
 
       if (action === 'save_archive_photos') {
         const { archivePhotos } = body as { archivePhotos: ArchivePhotoItem[] };
-        if (Array.isArray(archivePhotos)) {
-          const { data: existingRows } = await supabase.from('archive_photos').select('id');
-          const nextIds = new Set(archivePhotos.map((p) => p.id));
-          const idsToDelete = (existingRows || [])
-            .map((r: { id: string }) => r.id)
-            .filter((id) => !nextIds.has(id));
+        if (!Array.isArray(archivePhotos)) {
+          return NextResponse.json({ error: 'Invalid archivePhotos payload.' }, { status: 400 });
+        }
 
-          if (idsToDelete.length > 0) {
-            await supabase.from('archive_photos').delete().in('id', idsToDelete);
-          }
+        const { data: existingRows, error: fetchErr } = await supabase
+          .from('archive_photos')
+          .select('id, image_url');
 
-          if (archivePhotos.length > 0) {
-            await supabase.from('archive_photos').upsert(archivePhotos.map(mapArchiveToDb));
+        if (fetchErr) {
+          return NextResponse.json({ error: fetchErr.message }, { status: 500 });
+        }
+
+        const nextIds = new Set(archivePhotos.map((p) => p.id));
+        const nextUrls = new Set(archivePhotos.map((p) => p.imageUrl));
+
+        const rowsToDelete = (existingRows || []).filter(
+          (r: { id: string; image_url: string }) => !nextIds.has(r.id)
+        );
+        const idsToDelete = rowsToDelete.map((r: { id: string }) => r.id);
+
+        if (idsToDelete.length > 0) {
+          const { error: deleteErr } = await supabase
+            .from('archive_photos')
+            .delete()
+            .in('id', idsToDelete);
+          if (deleteErr) {
+            return NextResponse.json({ error: deleteErr.message }, { status: 500 });
           }
         }
 
-        const { data: refreshed } = await supabase
+        if (archivePhotos.length > 0) {
+          const { error: upsertErr } = await supabase
+            .from('archive_photos')
+            .upsert(archivePhotos.map(mapArchiveToDb));
+          if (upsertErr) {
+            return NextResponse.json({ error: upsertErr.message }, { status: 500 });
+          }
+        }
+
+        // Clean up orphaned images in the 'archive' storage bucket
+        for (const row of existingRows || []) {
+          if (row.image_url && !nextUrls.has(row.image_url)) {
+            await deleteMediaFromSupabaseByUrl(row.image_url, 'archive');
+          }
+        }
+
+        const { data: refreshed, error: refreshErr } = await supabase
           .from('archive_photos')
           .select('*')
           .order('created_at', { ascending: false });
+
+        if (refreshErr) {
+          return NextResponse.json({ error: refreshErr.message }, { status: 500 });
+        }
 
         return NextResponse.json({
           archivePhotos: Array.isArray(refreshed)

@@ -21,7 +21,7 @@ export default function LegacyGallerySection() {
 
   useEffect(() => {
     let isMounted = true;
-    fetch('/api/admin-data')
+    fetch('/api/admin-data', { cache: 'no-store' })
       .then((res) => res.json())
       .then((data) => {
         if (isMounted) {
@@ -307,6 +307,59 @@ export default function LegacyGallerySection() {
           </>
         )}
       </div>
+      {/* Lightbox Modal for Inspecting Selected Archive Photo */}
+      {selectedPhoto && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-xs"
+          onClick={() => setSelectedPhoto(null)}
+        >
+          <div
+            className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-hidden shadow-2xl border border-slate-200 flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="px-6 py-4 bg-slate-950 text-white flex items-center justify-between shrink-0">
+              <div>
+                <span className="text-xs font-mono font-bold text-amber-400 block">
+                  NUMESCON {selectedPhoto.year} · {selectedPhoto.category}
+                </span>
+                <h3 className="font-serif text-lg font-bold text-white leading-snug">
+                  {selectedPhoto.title}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedPhoto(null)}
+                className="p-1.5 text-slate-400 hover:text-white cursor-pointer"
+                aria-label="Close photo preview"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="bg-slate-900 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={selectedPhoto.imageUrl}
+                alt={selectedPhoto.title}
+                referrerPolicy="no-referrer"
+                className="max-h-[65vh] w-auto object-contain rounded-xl"
+              />
+            </div>
+
+            <div className="px-6 py-5 bg-white border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-start gap-2.5 text-sm text-slate-600">
+                <Quote className="w-4 h-4 text-blue-900 shrink-0 mt-0.5" />
+                <p className="leading-relaxed">{selectedPhoto.caption}</p>
+              </div>
+              {selectedPhoto.highlightStat && (
+                <span className="text-xs font-bold text-blue-900 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-xl shrink-0 self-start sm:self-center">
+                  {selectedPhoto.highlightStat}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

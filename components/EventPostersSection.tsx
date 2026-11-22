@@ -24,6 +24,8 @@ function getPageLabel(index: number, total: number, category: EventPosterItem['c
   return `Page ${index + 1} · Details`;
 }
 
+const POSTERS_PER_PAGE = 5;
+
 export default function EventPostersSection() {
   const [posters, setPosters] = useState<EventPosterItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -32,6 +34,7 @@ export default function EventPostersSection() {
   const [readerLayout, setReaderLayout] = useState<'single' | 'spread'>('single');
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState<number>(POSTERS_PER_PAGE);
 
   useEffect(() => {
     let isMounted = true;
@@ -99,6 +102,9 @@ export default function EventPostersSection() {
     if (activeCategory === 'All') return true;
     return p.category === activeCategory;
   });
+
+  const visiblePosters = filteredPosters.slice(0, visibleCount);
+  const remainingCount = Math.max(0, filteredPosters.length - visiblePosters.length);
 
   const handleShare = (poster: EventPosterItem) => {
     if (typeof window !== 'undefined') {
@@ -288,11 +294,10 @@ export default function EventPostersSection() {
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-5 py-2.5 text-sm font-bold rounded-xl transition-all whitespace-nowrap shrink-0 cursor-pointer ${
-                    activeCategory === cat
-                      ? 'bg-white text-slate-950 shadow-xs'
-                      : 'text-slate-600 hover:text-slate-950'
-                  }`}
+                  className={`px-5 py-2.5 text-sm font-bold rounded-xl transition-all whitespace-nowrap shrink-0 cursor-pointer ${activeCategory === cat
+                    ? 'bg-white text-slate-950 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-950'
+                    }`}
                 >
                   {cat === 'All' ? `All Releases (${posters.length})` : cat}
                 </button>
@@ -309,168 +314,206 @@ export default function EventPostersSection() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => setActiveCategory('All')}
+                  onClick={() => {
+                    setActiveCategory('All');
+                    setVisibleCount(POSTERS_PER_PAGE);
+                  }}
                   className="mt-6 px-5 py-2.5 bg-slate-950 hover:bg-slate-800 text-white text-sm font-semibold rounded-xl transition-colors cursor-pointer"
                 >
                   Show All Releases
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
-                {filteredPosters.map((poster, index) => {
-                  const pages = getPosterPages(poster);
-                  const coverUrl = pages[0];
-                  const hasMultiplePages = pages.length > 1;
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+                  {visiblePosters.map((poster, index) => {
+                    const pages = getPosterPages(poster);
+                    const coverUrl = pages[0];
+                    const hasMultiplePages = pages.length > 1;
 
-                  return (
-                    <motion.div
-                      key={poster.id}
-                      initial={{ opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: '-40px' }}
-                      transition={{
-                        duration: 0.45,
-                        delay: Math.min(index * 0.06, 0.3),
-                        ease: [0.16, 1, 0.3, 1],
-                      }}
-                      className="relative group"
-                    >
-                      {/* Subtle physical stacked-sheet backing for multi-page competition/rule posters */}
-                      {hasMultiplePages && (
-                        <div
-                          aria-hidden="true"
-                          className="pointer-events-none absolute -bottom-1.5 inset-x-3 h-6 rounded-b-3xl bg-slate-200/80 border border-slate-300/70 transition-transform duration-300 group-hover:translate-y-0.5"
-                        />
+                    return (
+                      <motion.div
+                        key={poster.id}
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-40px' }}
+                        transition={{
+                          duration: 0.45,
+                          delay: Math.min(index * 0.06, 0.3),
+                          ease: [0.16, 1, 0.3, 1],
+                        }}
+                        className="relative group"
+                      >
+                        {/* Subtle physical stacked-sheet backing for multi-page competition/rule posters */}
+                        {hasMultiplePages && (
+                          <div
+                            aria-hidden="true"
+                            className="pointer-events-none absolute -bottom-1.5 inset-x-3 h-6 rounded-b-3xl bg-slate-200/80 border border-slate-300/70 transition-transform duration-300 group-hover:translate-y-0.5"
+                          />
+                        )}
+
+                        <div className="relative bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col justify-between h-full">
+                          {/* Poster Visual Frame */}
+                          <div
+                            onClick={() => openPosterOverlay(poster)}
+                            className="relative aspect-[3/4] w-full cursor-pointer overflow-hidden bg-slate-950"
+                          >
+                            {coverUrl ? (
+                              /* eslint-disable-next-line @next/next/no-img-element */
+                              <img
+                                src={coverUrl}
+                                alt={poster.title}
+                                referrerPolicy="no-referrer"
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            ) : (
+                              <div
+                                className={`w-full h-full bg-gradient-to-br ${poster.themeColor} p-8 flex flex-col justify-between text-white relative`}
+                              >
+                                <div className="absolute inset-0 bg-[radial-gradient(#ffffff_0.75px,transparent_0.75px)] [background-size:24px_24px] opacity-15" />
+
+                                <div className="relative flex items-center justify-between text-xs tracking-widest font-mono">
+                                  <span className="font-bold text-amber-400 uppercase">
+                                    NUMESCON 2026
+                                  </span>
+                                  <span className="text-[11px] text-slate-300">
+                                    {poster.category}
+                                  </span>
+                                </div>
+
+                                <div className="relative text-center my-auto py-6">
+                                  <div className="w-14 h-14 mx-auto rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-amber-300 mb-4 shadow-sm group-hover:scale-110 transition-transform">
+                                    <ImageIcon className="w-7 h-7" />
+                                  </div>
+
+                                  <span className="text-xs uppercase tracking-widest text-slate-300 font-bold block mb-2">
+                                    NBMC&amp;H Official Release
+                                  </span>
+
+                                  <h3 className="font-serif text-2xl sm:text-3xl font-extrabold leading-tight text-white mb-3 text-balance">
+                                    {poster.title}
+                                  </h3>
+
+                                  <p className="text-xs sm:text-sm text-slate-300 line-clamp-2 max-w-xs mx-auto leading-relaxed">
+                                    {poster.tagline}
+                                  </p>
+                                </div>
+
+                                <div className="relative pt-4 border-t border-white/20 flex items-center justify-between text-xs text-slate-300">
+                                  <div>
+                                    <span className="block font-bold text-white">
+                                      {poster.dateStr.split('·')[0]}
+                                    </span>
+                                    <span className="text-[11px] text-slate-400">{poster.venue}</span>
+                                  </div>
+
+                                  {poster.highlightTag && (
+                                    <span className="font-semibold text-amber-300 text-xs">
+                                      {poster.highlightTag}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Multi-page Sheet Count Corner Indicator */}
+                            {hasMultiplePages && (
+                              <div className="absolute top-3.5 right-3.5 z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/85 backdrop-blur-xs text-white border border-white/20 text-xs font-bold shadow-md">
+                                <Layers className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+                                <span>{pages.length} Pages · Rules Inside</span>
+                              </div>
+                            )}
+
+                            {/* Inspect Overlay Prompt */}
+                            <div className="absolute inset-0 bg-slate-950/45 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white text-sm font-bold backdrop-blur-2xs px-4 text-center">
+                              {hasMultiplePages ? (
+                                <>
+                                  <FileText className="w-5 h-5 text-amber-300 shrink-0" />
+                                  <span>Open Poster &amp; Rules ({pages.length} Pages)</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Maximize2 className="w-5 h-5 shrink-0" />
+                                  <span>Enlarge Poster</span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Poster Description & Card Action Footer */}
+                          <div className="p-6 sm:p-7 space-y-4">
+                            <div>
+                              <div className="flex items-center gap-2 mb-2 text-xs text-slate-500">
+                                <span className="text-blue-900 font-semibold">{poster.category}</span>
+                                <span aria-hidden="true">·</span>
+                                <span className="truncate">{poster.dateStr}</span>
+                              </div>
+
+                              <h4 className="font-serif text-xl font-bold text-slate-950 leading-snug line-clamp-1">
+                                {poster.title}
+                              </h4>
+
+                              <p className="text-sm text-slate-600 line-clamp-2 mt-1.5 leading-relaxed">
+                                {poster.description}
+                              </p>
+                            </div>
+
+                            <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                              <span className="text-xs font-medium text-slate-500 truncate">
+                                {poster.venue}
+                              </span>
+
+                              <button
+                                onClick={() => openPosterOverlay(poster)}
+                                className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-900 hover:underline px-3 py-1.5 cursor-pointer shrink-0 whitespace-nowrap"
+                              >
+                                <span>
+                                  {hasMultiplePages
+                                    ? `View All ${pages.length} Pages →`
+                                    : 'View Release →'}
+                                </span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+                {/* Progressive Load More / Collapse Controls */}
+                {filteredPosters.length > POSTERS_PER_PAGE && (
+                  <div className="mt-12 flex flex-col items-center gap-4">
+                    <p className="text-xs font-medium text-slate-500 tabular-nums">
+                      Showing {visiblePosters.length} of {filteredPosters.length} releases
+                    </p>
+
+                    <div className="flex flex-wrap items-center justify-center gap-3">
+                      {remainingCount > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setVisibleCount((prev) => prev + POSTERS_PER_PAGE)}
+                          className="inline-flex items-center gap-2 px-7 py-3 bg-slate-950 hover:bg-blue-900 text-white text-sm font-bold rounded-2xl shadow-xs transition-colors cursor-pointer"
+                        >
+                          <span>
+                            View More Posters ({Math.min(POSTERS_PER_PAGE, remainingCount)} more)
+                          </span>
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
                       )}
 
-                      <div className="relative bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col justify-between h-full">
-                        {/* Poster Visual Frame */}
-                        <div
-                          onClick={() => openPosterOverlay(poster)}
-                          className="relative aspect-[3/4] w-full cursor-pointer overflow-hidden bg-slate-950"
+                      {visibleCount > POSTERS_PER_PAGE && (
+                        <button
+                          type="button"
+                          onClick={() => setVisibleCount(POSTERS_PER_PAGE)}
+                          className="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-2xl transition-colors cursor-pointer"
                         >
-                          {coverUrl ? (
-                            /* eslint-disable-next-line @next/next/no-img-element */
-                            <img
-                              src={coverUrl}
-                              alt={poster.title}
-                              referrerPolicy="no-referrer"
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                          ) : (
-                            <div
-                              className={`w-full h-full bg-gradient-to-br ${poster.themeColor} p-8 flex flex-col justify-between text-white relative`}
-                            >
-                              <div className="absolute inset-0 bg-[radial-gradient(#ffffff_0.75px,transparent_0.75px)] [background-size:24px_24px] opacity-15" />
-
-                              <div className="relative flex items-center justify-between text-xs tracking-widest font-mono">
-                                <span className="font-bold text-amber-400 uppercase">
-                                  NUMESCON 2026
-                                </span>
-                                <span className="text-[11px] text-slate-300">
-                                  {poster.category}
-                                </span>
-                              </div>
-
-                              <div className="relative text-center my-auto py-6">
-                                <div className="w-14 h-14 mx-auto rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-amber-300 mb-4 shadow-sm group-hover:scale-110 transition-transform">
-                                  <ImageIcon className="w-7 h-7" />
-                                </div>
-
-                                <span className="text-xs uppercase tracking-widest text-slate-300 font-bold block mb-2">
-                                  NBMC&amp;H Official Release
-                                </span>
-
-                                <h3 className="font-serif text-2xl sm:text-3xl font-extrabold leading-tight text-white mb-3 text-balance">
-                                  {poster.title}
-                                </h3>
-
-                                <p className="text-xs sm:text-sm text-slate-300 line-clamp-2 max-w-xs mx-auto leading-relaxed">
-                                  {poster.tagline}
-                                </p>
-                              </div>
-
-                              <div className="relative pt-4 border-t border-white/20 flex items-center justify-between text-xs text-slate-300">
-                                <div>
-                                  <span className="block font-bold text-white">
-                                    {poster.dateStr.split('·')[0]}
-                                  </span>
-                                  <span className="text-[11px] text-slate-400">{poster.venue}</span>
-                                </div>
-
-                                {poster.highlightTag && (
-                                  <span className="font-semibold text-amber-300 text-xs">
-                                    {poster.highlightTag}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Multi-page Sheet Count Corner Indicator */}
-                          {hasMultiplePages && (
-                            <div className="absolute top-3.5 right-3.5 z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/85 backdrop-blur-xs text-white border border-white/20 text-xs font-bold shadow-md">
-                              <Layers className="w-3.5 h-3.5 text-amber-300 shrink-0" />
-                              <span>{pages.length} Pages · Rules Inside</span>
-                            </div>
-                          )}
-
-                          {/* Inspect Overlay Prompt */}
-                          <div className="absolute inset-0 bg-slate-950/45 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white text-sm font-bold backdrop-blur-2xs px-4 text-center">
-                            {hasMultiplePages ? (
-                              <>
-                                <FileText className="w-5 h-5 text-amber-300 shrink-0" />
-                                <span>Open Poster &amp; Rules ({pages.length} Pages)</span>
-                              </>
-                            ) : (
-                              <>
-                                <Maximize2 className="w-5 h-5 shrink-0" />
-                                <span>Enlarge Poster</span>
-                              </>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Poster Description & Card Action Footer */}
-                        <div className="p-6 sm:p-7 space-y-4">
-                          <div>
-                            <div className="flex items-center gap-2 mb-2 text-xs text-slate-500">
-                              <span className="text-blue-900 font-semibold">{poster.category}</span>
-                              <span aria-hidden="true">·</span>
-                              <span className="truncate">{poster.dateStr}</span>
-                            </div>
-
-                            <h4 className="font-serif text-xl font-bold text-slate-950 leading-snug line-clamp-1">
-                              {poster.title}
-                            </h4>
-
-                            <p className="text-sm text-slate-600 line-clamp-2 mt-1.5 leading-relaxed">
-                              {poster.description}
-                            </p>
-                          </div>
-
-                          <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                            <span className="text-xs font-medium text-slate-500 truncate">
-                              {poster.venue}
-                            </span>
-
-                            <button
-                              onClick={() => openPosterOverlay(poster)}
-                              className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-900 hover:underline px-3 py-1.5 cursor-pointer shrink-0 whitespace-nowrap"
-                            >
-                              <span>
-                                {hasMultiplePages
-                                  ? `View All ${pages.length} Pages →`
-                                  : 'View Release →'}
-                              </span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
+                          Show Less
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </>
         )}
@@ -518,11 +561,10 @@ export default function EventPostersSection() {
                       <button
                         type="button"
                         onClick={() => setReaderLayout('single')}
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
-                          readerLayout === 'single'
-                            ? 'bg-white text-slate-950'
-                            : 'text-slate-300 hover:text-white'
-                        }`}
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${readerLayout === 'single'
+                          ? 'bg-white text-slate-950'
+                          : 'text-slate-300 hover:text-white'
+                          }`}
                         title="Focus one page at a time"
                       >
                         <Square className="w-3.5 h-3.5" />
@@ -531,11 +573,10 @@ export default function EventPostersSection() {
                       <button
                         type="button"
                         onClick={() => setReaderLayout('spread')}
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
-                          readerLayout === 'spread'
-                            ? 'bg-white text-slate-950'
-                            : 'text-slate-300 hover:text-white'
-                        }`}
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${readerLayout === 'spread'
+                          ? 'bg-white text-slate-950'
+                          : 'text-slate-300 hover:text-white'
+                          }`}
                         title="Read all pages side by side"
                       >
                         <Columns2 className="w-3.5 h-3.5" />
@@ -654,11 +695,10 @@ export default function EventPostersSection() {
                                   key={`${selectedPoster.id}-thumb-${idx}`}
                                   type="button"
                                   onClick={() => setActivePageIndex(idx)}
-                                  className={`flex items-center gap-2.5 p-1.5 pr-3 rounded-xl border transition-all cursor-pointer shrink-0 ${
-                                    isCurrent
-                                      ? 'bg-white text-slate-950 border-amber-400 shadow-md'
-                                      : 'bg-slate-950/80 text-slate-300 border-slate-700 hover:border-slate-500'
-                                  }`}
+                                  className={`flex items-center gap-2.5 p-1.5 pr-3 rounded-xl border transition-all cursor-pointer shrink-0 ${isCurrent
+                                    ? 'bg-white text-slate-950 border-amber-400 shadow-md'
+                                    : 'bg-slate-950/80 text-slate-300 border-slate-700 hover:border-slate-500'
+                                    }`}
                                 >
                                   <div className="w-9 h-11 rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-700/40">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -674,9 +714,8 @@ export default function EventPostersSection() {
                                       Page {idx + 1}
                                     </span>
                                     <span
-                                      className={`block text-[10px] leading-tight mt-0.5 ${
-                                        isCurrent ? 'text-slate-600 font-semibold' : 'text-slate-400'
-                                      }`}
+                                      className={`block text-[10px] leading-tight mt-0.5 ${isCurrent ? 'text-slate-600 font-semibold' : 'text-slate-400'
+                                        }`}
                                     >
                                       {idx === 0 ? 'Main Cover' : 'Rules / Details'}
                                     </span>
