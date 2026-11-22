@@ -1405,8 +1405,11 @@ export default function RegistrationSection({
                                 ? 'Compressing & uploading receipt screenshot...'
                                 : 'Click to upload payment receipt screenshot'}
                             </span>
+                            <span className="block text-sm sm:text-base font-bold text-slate-500">
+                              THE RECEIPT SHOULD CONTAIN THE UPI TRANSACTION ID / UTR REFERENCE NUMBER AND AMOUNT PAID (₹300).
+                            </span>
                             <span className="block text-xs text-slate-500 mt-1">
-                              Upload GPay / PhonePe / Paytm / Bank confirmation image (auto-compressed to crisp WebP)
+                              Upload GPay / PhonePe / Paytm / Bank confirmation image
                             </span>
                           </div>
                           <input
