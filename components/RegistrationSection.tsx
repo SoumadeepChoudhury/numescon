@@ -354,41 +354,61 @@ export default function RegistrationSection({
       return;
     }
 
-    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-    const generatedId = `NUMES-2026-${formData.clusterId}${randomSuffix}`;
-    const regDateStr = new Date().toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-
-    const fullClusterWorkshopIds = CLUSTERS[formData.clusterId].workshops.map((w) => w.id);
-    const normalizedData: RegistrationData = {
-      ...formData,
-    };
-
-    const newPass: ConfirmedPass = {
-      delegateId: generatedId,
-      registrationDate: regDateStr,
-      data: normalizedData,
-    };
-
     try {
       setIsSubmitting(true);
-      localStorage.setItem('numescon_2026_pass', JSON.stringify(newPass));
-      const existingRaw = localStorage.getItem('numescon_2026_registrations');
-      const existingList = existingRaw ? JSON.parse(existingRaw) : [];
+
+      // 1. Live seat availability check right before final submission
+      const checkRes = await fetch('/api/admin-data', { cache: 'no-store' });
+      if (checkRes.ok) {
+        const checkData = await checkRes.json();
+        if (Array.isArray(checkData.registrations)) {
+          const latestCounts: Record<ClusterId, number> = { A: 0, B: 0, C: 0 };
+          for (const r of checkData.registrations) {
+            const cid = r.clusterId as ClusterId;
+            if (r.paymentVerificationStatus !== 'Rejected' && latestCounts[cid] !== undefined) {
+              latestCounts[cid] += 1;
+            }
+          }
+          setClusterCounts(latestCounts);
+
+          if (latestCounts[formData.clusterId] >= CLUSTER_CAPACITY[formData.clusterId]) {
+            alert(
+              `Sorry! Cluster ${formData.clusterId} (${CLUSTERS[formData.clusterId].name}) just reached full capacity (${CLUSTER_CAPACITY[formData.clusterId]} seats). Please select another available cluster.`
+            );
+            setCurrentStep(3);
+            return;
+          }
+        }
+      }
+
+      // 2. Build registration record
+      const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+      const generatedId = `NUMES-2026-${formData.clusterId}${randomSuffix}`;
+      const regDateStr = new Date().toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      });
+
+      const normalizedData: RegistrationData = {
+        ...formData,
+        email: formData.email.trim().toLowerCase(),
+        paymentTransactionId: formData.paymentTransactionId || 'Nil',
+      };
+
+      const newPass: ConfirmedPass = {
+        delegateId: generatedId,
+        registrationDate: regDateStr,
+        data: normalizedData,
+      };
+
       const record = {
         delegateId: generatedId,
         registrationDate: regDateStr,
         ...normalizedData,
       };
-      localStorage.setItem(
-        'numescon_2026_registrations',
-        JSON.stringify([record, ...existingList])
-      );
-      record.paymentTransactionId = record.paymentTransactionId || 'Nil';
-      console.log("====>", record.paymentTransactionId);
+
+      // 3. Submit to backend
       const res = await fetch('/api/admin-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -396,22 +416,32 @@ export default function RegistrationSection({
           action: 'add_registration',
           registration: record,
         }),
-      }).catch((err) => console.error('Failed to sync registration:', err));
-      const result = await res?.json();
-      if (!res?.ok) {
+      });
+
+      const result = await res.json();
+      if (!res.ok) {
         console.error('Supabase registration error:', result.error);
         alert(`Registration failed: ${result.error || 'Server error'}`);
         return;
       }
 
-      setConfirmedPass(newPass);
+      // 4. Only save to localStorage AFTER the database confirms it
+      localStorage.setItem('numescon_2026_pass', JSON.stringify(newPass));
+      const existingRaw = localStorage.getItem('numescon_2026_registrations');
+      const existingList = existingRaw ? JSON.parse(existingRaw) : [];
+      localStorage.setItem(
+        'numescon_2026_registrations',
+        JSON.stringify([record, ...existingList])
+      );
 
+      setConfirmedPass(newPass);
+      if (onPassGenerated) onPassGenerated(newPass);
     } catch (err) {
-      console.error(err);
+      console.error('Failed to sync registration:', err);
+      alert('Network error while submitting registration. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
-    if (onPassGenerated) onPassGenerated(newPass);
   };
 
   const resetFormForNewDelegate = () => {
