@@ -93,12 +93,12 @@ export default function HomePage() {
       <TeaserVideoSection />
 
       {/* Registration Section with Responsive Form & Pass Generation */}
-      <RegistrationSection
+      {/* <RegistrationSection
         key={selectedClusterForReg}
         initialClusterId={selectedClusterForReg}
         onPassGenerated={() => setHasPass(true)}
         onOpenPolicy={(policy) => setActivePolicy(policy)}
-      />
+      /> */}
 
       {/* 2-Day Academic Fest Schedule (28 & 29 Nov 2026) */}
       <EventsScheduleSection />
