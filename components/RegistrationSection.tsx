@@ -75,6 +75,53 @@ export default function RegistrationSection({
   const [qrLoadError, setQrLoadError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const CLUSTER_CAPACITY: Record<ClusterId, number> = {
+    A: 30,
+    B: 30,
+    C: 50,
+  };
+
+  const [clusterCounts, setClusterCounts] = useState<Record<ClusterId, number>>({
+    A: 0,
+    B: 0,
+    C: 0,
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch('/api/admin-data', { cache: 'no-store' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isMounted || !Array.isArray(data.registrations)) return;
+
+        const counts: Record<ClusterId, number> = { A: 0, B: 0, C: 0 };
+
+        for (const reg of data.registrations) {
+          const cid = reg.clusterId as ClusterId;
+          if (reg.paymentVerificationStatus !== 'Rejected' && counts[cid] !== undefined) {
+            counts[cid] += 1;
+          }
+        }
+
+        setClusterCounts(counts);
+
+        // If the currently selected cluster is full, auto-select the first open one
+        setFormData((prev) => {
+          if (counts[prev.clusterId] < CLUSTER_CAPACITY[prev.clusterId]) return prev;
+          const firstOpen = (['A', 'B', 'C'] as const).find(
+            (id) => counts[id] < CLUSTER_CAPACITY[id]
+          );
+          return firstOpen ? { ...prev, clusterId: firstOpen } : prev;
+        });
+      })
+      .catch((err) => console.error('Failed to fetch cluster seat counts:', err));
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   useEffect(() => {
     let isMounted = true;
     fetch('/api/admin-data')
@@ -609,7 +656,8 @@ export default function RegistrationSection({
             Registration is required exclusively for the 4 hands-on workshop clusters (Dopamine Drive, Adrenaline Rush, and Serotonin Surge). Guest lectures and auditorium talks are open-entry and require no registration.
           </p>
           <br />
-          <p><b>NOTE: Cluster allotment will be strictly on a First Come, First Served basis, with each cluster having a maximum capacity of 50 participants only. Once a cluster reaches its capacity, any additional participants may be automatically allotted to another randomly selected cluster with available seats, subject to availability. Participants are therefore encouraged to complete their registration at the earliest to secure their preferred cluster.</b></p>
+          {/* <p><b>NOTE: Cluster allotment will be strictly on a First Come, First Served basis, with each cluster having a maximum capacity of 50 participants only. Once a cluster reaches its capacity, any additional participants may be automatically allotted to another randomly selected cluster with available seats, subject to availability. Participants are therefore encouraged to complete their registration at the earliest to secure their preferred cluster.</b></p> */}
+          <p><b>NOTE: VERY LIMITED SEATS AVAILABLE.</b></p>
           <div className="mt-5 inline-flex flex-wrap items-center justify-center gap-2.5 px-5 py-2.5 bg-white border border-blue-200 rounded-2xl shadow-2xs text-sm text-slate-800">
             <span className="font-bold text-blue-900 uppercase tracking-wider text-xs">
               Workshop Registration Fee
@@ -1067,28 +1115,62 @@ export default function RegistrationSection({
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                   {(['A', 'B', 'C'] as const).map((cId) => {
                     const cl = CLUSTERS[cId];
-                    const isSelected = formData.clusterId === cId;
+                    const isDisabled = clusterCounts[cId] >= CLUSTER_CAPACITY[cId];
+                    const isSelected = !isDisabled && formData.clusterId === cId;
+
                     return (
                       <button
                         key={cId}
                         type="button"
-                        onClick={() => handleClusterSelect(cId)}
-                        className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${isSelected
-                          ? 'bg-blue-900 text-white border-blue-900 shadow-sm scale-[1.01]'
-                          : 'bg-white text-slate-800 border-slate-200 hover:border-slate-300'
+                        disabled={isDisabled}
+                        onClick={() => !isDisabled && handleClusterSelect(cId)}
+                        className={`p-4 rounded-2xl border text-left transition-all ${isDisabled
+                          ? 'bg-slate-100 text-slate-400 border-slate-200 opacity-65 cursor-not-allowed'
+                          : isSelected
+                            ? 'bg-blue-900 text-white border-blue-900 shadow-sm scale-[1.01] cursor-pointer'
+                            : 'bg-white text-slate-800 border-slate-200 hover:border-slate-300 cursor-pointer'
                           }`}
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <span className={`text-xs font-mono font-bold uppercase tracking-wider ${isSelected ? 'text-amber-300' : 'text-blue-900'}`}>
+                          <span
+                            className={`text-xs font-mono font-bold uppercase tracking-wider ${isDisabled
+                              ? 'text-slate-400'
+                              : isSelected
+                                ? 'text-amber-300'
+                                : 'text-blue-900'
+                              }`}
+                          >
                             CLUSTER {cId}
                           </span>
-                          {isSelected && <CheckCircle2 className="w-4 h-4 text-white" />}
+                          {isDisabled ? (
+                            <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-slate-200 text-slate-600">
+                              Full
+                            </span>
+                          ) : (
+                            isSelected && <CheckCircle2 className="w-4 h-4 text-white" />
+                          )}
                         </div>
-                        <span className={`block text-base sm:text-lg font-extrabold font-serif truncate ${isSelected ? 'text-white' : 'text-slate-950'}`}>
+                        <span
+                          className={`block text-base sm:text-lg font-extrabold font-serif truncate ${isDisabled
+                            ? 'text-slate-400 line-through'
+                            : isSelected
+                              ? 'text-white'
+                              : 'text-slate-950'
+                            }`}
+                        >
                           {cl.name}
                         </span>
-                        <span className={`block text-xs mt-1 ${isSelected ? 'text-blue-100' : 'text-slate-500'}`}>
-                          All 4 Workshops Included (2 Day 1 + 2 Day 2)
+                        <span
+                          className={`block text-xs mt-1 ${isDisabled
+                            ? 'text-rose-600 font-bold'
+                            : isSelected
+                              ? 'text-blue-100'
+                              : 'text-slate-500'
+                            }`}
+                        >
+                          {isDisabled
+                            ? 'No more slots available'
+                            : 'All 4 Workshops Included (2 Day 1 + 2 Day 2)'}
                         </span>
                       </button>
                     );

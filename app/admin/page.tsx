@@ -31,6 +31,7 @@ import {
   XCircle,
   ChevronLeft,
   ChevronRight,
+  BarChart3,
 } from 'lucide-react';
 import {
   EventPosterItem,
@@ -1169,6 +1170,14 @@ export default function AdminDashboardPage() {
             >
               <ExternalLink className="w-3.5 h-3.5" />
               <span>View Public Website</span>
+            </Link>
+
+            <Link
+              href="/admin/analytics"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-bold text-sky-300 hover:text-white bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/30 rounded-xl transition-colors"
+            >
+              <BarChart3 className="w-3.5 h-3.5" />
+              <span>Analytics</span>
             </Link>
 
             <button
