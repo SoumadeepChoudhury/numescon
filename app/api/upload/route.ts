@@ -74,7 +74,17 @@ export async function POST(req: NextRequest) {
     const rawBuffer = Buffer.from(arrayBuffer);
 
     // Server-side maximum optimization (sharp WebP for images, FFmpeg 720p H.264 MP4 for videos)
-    const compressed = await compressMediaOnServer(rawBuffer, file.name, mime, rawBucket);
+    const compressed =
+      rawBucket === 'posters'
+        ? {
+          buffer: rawBuffer,
+          fileName: file.name,
+          mimeType: mime,
+          originalBytes: rawBuffer.length,
+          compressedBytes: rawBuffer.length,
+          method: 'original-uncompressed',
+        }
+        : await compressMediaOnServer(rawBuffer, file.name, mime, rawBucket);
 
     const baselineOriginalBytes =
       Number.isFinite(reportedOriginalSize) && reportedOriginalSize > compressed.originalBytes
@@ -83,11 +93,11 @@ export async function POST(req: NextRequest) {
     const totalSavedPercent =
       baselineOriginalBytes > 0
         ? Math.max(
-            0,
-            Math.round(
-              ((baselineOriginalBytes - compressed.compressedBytes) / baselineOriginalBytes) * 100
-            )
+          0,
+          Math.round(
+            ((baselineOriginalBytes - compressed.compressedBytes) / baselineOriginalBytes) * 100
           )
+        )
         : 0;
 
     // Primary path: Upload compressed buffer directly to Supabase Storage when configured

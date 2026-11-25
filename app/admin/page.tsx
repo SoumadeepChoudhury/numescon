@@ -258,7 +258,7 @@ export default function AdminDashboardPage() {
       let uploadTargetFile = file;
       const originalBytes = file.size;
 
-      if (bucket !== 'videos' && file.type.startsWith('image/')) {
+      if (bucket !== 'videos' && bucket !== 'posters' && file.type.startsWith('image/')) {
         const compressed = await compressImageInBrowser(file, bucket);
         uploadTargetFile = compressed.file;
       }
