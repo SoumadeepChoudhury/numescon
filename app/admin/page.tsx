@@ -746,6 +746,39 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const [togglingIdCard, setTogglingIdCard] = useState<string | null>(null);
+
+  const handleToggleIdCard = async (delegateId: string, nextTaken: boolean) => {
+    setTogglingIdCard(delegateId);
+    try {
+      const res = await fetch('/api/admin-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'toggle_id_card',
+          delegateId,
+          idCardTaken: nextTaken,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && Array.isArray(data.registrations)) {
+        setRegistrations(data.registrations);
+        showToast(
+          nextTaken
+            ? `ID Card marked as Taken for ${delegateId}`
+            : `ID Card marked as Not Taken for ${delegateId}`
+        );
+      } else {
+        showToast(data.error || 'Failed to update ID card status.');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Network error while updating ID card status.');
+    } finally {
+      setTogglingIdCard(null);
+    }
+  };
+
   const openReceiptInspector = (reg: StudentRegistrationRecord) => {
     setInspectingReceipt(reg);
     setVerificationRemarks(reg.paymentRemarks || '');
@@ -1382,14 +1415,14 @@ export default function AdminDashboardPage() {
                       type="button"
                       onClick={() => setPaymentFilter(status)}
                       className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap tabular-nums ${paymentFilter === status
-                          ? status === 'Verified'
-                            ? 'bg-emerald-800 text-white'
-                            : status === 'Rejected'
-                              ? 'bg-rose-700 text-white'
-                              : status === 'Pending Review'
-                                ? 'bg-amber-600 text-white'
-                                : 'bg-slate-900 text-white'
-                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        ? status === 'Verified'
+                          ? 'bg-emerald-800 text-white'
+                          : status === 'Rejected'
+                            ? 'bg-rose-700 text-white'
+                            : status === 'Pending Review'
+                              ? 'bg-amber-600 text-white'
+                              : 'bg-slate-900 text-white'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                         }`}
                     >
                       {status === 'ALL' ? `All Receipts (${count})` : `${status} (${count})`}
@@ -1402,10 +1435,10 @@ export default function AdminDashboardPage() {
                   type="button"
                   onClick={() => setShowDuplicatesOnly((prev) => !prev)}
                   className={`ml-auto px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap tabular-nums inline-flex items-center gap-1.5 ${showDuplicatesOnly
-                      ? 'bg-rose-700 text-white'
-                      : duplicateRowsCount > 0
-                        ? 'bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100'
-                        : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                    ? 'bg-rose-700 text-white'
+                    : duplicateRowsCount > 0
+                      ? 'bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100'
+                      : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
                     }`}
                 >
                   <AlertCircle className="w-3.5 h-3.5" />
@@ -1426,6 +1459,7 @@ export default function AdminDashboardPage() {
                       <th className="py-4 px-5 font-bold">Batch &amp; Roll No</th>
                       <th className="py-4 px-5 font-bold">Assigned Cluster</th>
                       <th className="py-4 px-5 font-bold">Payment Receipt</th>
+                      <th className="py-4 px-5 font-bold">ID Card</th>
                       <th className="py-4 px-5 font-bold">Contact Details</th>
                       <th className="py-4 px-5 font-bold">Food</th>
                       <th className="py-4 px-5 font-bold text-right">Action</th>
@@ -1434,7 +1468,7 @@ export default function AdminDashboardPage() {
                   <tbody className="divide-y divide-slate-200 text-sm">
                     {filteredRegistrations.length === 0 ? (
                       <tr>
-                        <td colSpan={9} className="py-12 text-center text-slate-500">
+                        <td colSpan={10} className="py-12 text-center text-slate-500">
                           No registered students match the current filter.
                         </td>
                       </tr>
@@ -1486,6 +1520,8 @@ export default function AdminDashboardPage() {
                             </span>
                           </td>
 
+
+
                           <td className="py-4 px-5 align-top text-xs min-w-[210px]">
                             <div className="font-mono font-bold text-slate-900">
                               {reg.paymentTransactionId || 'No UTR provided'}
@@ -1519,6 +1555,8 @@ export default function AdminDashboardPage() {
                               </div>
                             )}
 
+
+
                             {/* Inspect & Quick Verify Actions */}
                             <div className="mt-2.5 flex flex-wrap items-center gap-2">
                               <button
@@ -1547,10 +1585,35 @@ export default function AdminDashboardPage() {
                             </div>
                           </td>
 
+                          <td className="py-4 px-5 align-top">
+                            <button
+                              type="button"
+                              disabled={togglingIdCard === reg.delegateId}
+                              onClick={() => handleToggleIdCard(reg.delegateId, !reg.idCardTaken)}
+                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer whitespace-nowrap disabled:opacity-50 ${reg.idCardTaken
+                                ? 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
+                                : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'
+                                }`}
+                            >
+                              {reg.idCardTaken ? (
+                                <>
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                                  <span>Taken</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                                  <span>Taken</span>
+                                </>
+                              )}
+                            </button>
+                          </td>
+
                           <td className="py-4 px-5 align-top text-xs">
                             <div className="font-medium text-slate-900">{reg.email}</div>
                             <div className="font-mono text-slate-600 mt-0.5">{reg.phone}</div>
                           </td>
+
 
                           <td className="py-4 px-5 align-top text-xs">
                             {/* <span className="block font-semibold text-slate-800">

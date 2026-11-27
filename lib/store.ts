@@ -61,6 +61,7 @@ export interface StudentRegistrationRecord {
   paymentVerifiedBy?: string;
   paymentVerifiedAt?: string;
   paymentRemarks?: string;
+  idCardTaken?: boolean;
 }
 
 export interface PaymentQrConfig {

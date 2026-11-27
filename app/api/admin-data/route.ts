@@ -223,6 +223,7 @@ interface DbRegistrationRow {
   payment_verified_by?: string | null;
   payment_verified_at?: string | null;
   payment_remarks?: string | null;
+  id_card_taken?: boolean | null;
 }
 
 function mapRegistrationFromDb(row: DbRegistrationRow): StudentRegistrationRecord {
@@ -250,6 +251,7 @@ function mapRegistrationFromDb(row: DbRegistrationRow): StudentRegistrationRecor
     paymentVerifiedBy: row.payment_verified_by || undefined,
     paymentVerifiedAt: row.payment_verified_at || undefined,
     paymentRemarks: row.payment_remarks || undefined,
+    idCardTaken: Boolean(row.id_card_taken),
   };
 }
 
@@ -278,6 +280,7 @@ function mapRegistrationToDb(r: StudentRegistrationRecord): DbRegistrationRow {
     payment_verified_by: r.paymentVerifiedBy || null,
     payment_verified_at: r.paymentVerifiedAt || null,
     payment_remarks: r.paymentRemarks || null,
+    id_card_taken: Boolean(r.idCardTaken),
   };
 }
 
@@ -747,6 +750,39 @@ export async function POST(req: NextRequest) {
         });
       }
 
+      if (action === 'toggle_id_card') {
+        const { delegateId, idCardTaken } = body as {
+          delegateId?: string;
+          idCardTaken?: boolean;
+        };
+        if (!delegateId || typeof idCardTaken !== 'boolean') {
+          return NextResponse.json(
+            { error: 'Valid delegateId and idCardTaken boolean are required.' },
+            { status: 400 }
+          );
+        }
+
+        const { error: updateErr } = await supabase
+          .from('student_registrations')
+          .update({ id_card_taken: idCardTaken })
+          .eq('delegate_id', delegateId);
+
+        if (updateErr) {
+          return NextResponse.json({ error: updateErr.message }, { status: 500 });
+        }
+
+        const { data: rows } = await supabase
+          .from('student_registrations')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        return NextResponse.json({
+          registrations: Array.isArray(rows)
+            ? (rows as DbRegistrationRow[]).map(mapRegistrationFromDb)
+            : [],
+        });
+      }
+
       return NextResponse.json({ error: 'Unsupported action' }, { status: 400 });
     }
 
@@ -951,6 +987,25 @@ export async function POST(req: NextRequest) {
         paymentUpiId: db.paymentUpiId,
         paymentAccountName: db.paymentAccountName,
       });
+    }
+
+    if (action === 'toggle_id_card') {
+      const { delegateId, idCardTaken } = body as {
+        delegateId?: string;
+        idCardTaken?: boolean;
+      };
+      if (!delegateId || typeof idCardTaken !== 'boolean') {
+        return NextResponse.json(
+          { error: 'Valid delegateId and idCardTaken boolean are required.' },
+          { status: 400 }
+        );
+      }
+
+      db.registrations = db.registrations.map((r) =>
+        r.delegateId === delegateId ? { ...r, idCardTaken } : r
+      );
+      writeLocalDb(db);
+      return NextResponse.json({ registrations: db.registrations });
     }
 
     return NextResponse.json({ error: 'Unsupported action' }, { status: 400 });
