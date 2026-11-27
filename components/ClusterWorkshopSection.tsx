@@ -83,12 +83,12 @@ export default function ClusterWorkshopSection({
             </div>
           </div>
 
-          {/* <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200 text-slate-600 text-xs">
+          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200 text-slate-600 text-xs">
             <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             <span>{ws.hall}</span>
             <span aria-hidden="true" className="text-slate-300">·</span>
             <span className="font-semibold text-slate-900">{ws.duration}</span>
-          </div> */}
+          </div>
         </div>
 
         {/* Learning Outcomes */}
