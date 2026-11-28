@@ -76,7 +76,7 @@ export default function RegistrationSection({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const CLUSTER_CAPACITY: Record<ClusterId, number> = {
-    A: 49,
+    A: 48,
     B: 50,
     C: 60,
   };
