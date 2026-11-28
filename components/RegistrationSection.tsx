@@ -76,9 +76,9 @@ export default function RegistrationSection({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const CLUSTER_CAPACITY: Record<ClusterId, number> = {
-    A: 30,
-    B: 30,
-    C: 50,
+    A: 50,
+    B: 50,
+    C: 60,
   };
 
   const [clusterCounts, setClusterCounts] = useState<Record<ClusterId, number>>({
@@ -622,7 +622,7 @@ export default function RegistrationSection({
                   </div>
                   {passData.paymentTransactionId && (
                     <div className="bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-lg text-emerald-900 font-medium">
-                      Workshop Fee: <strong>₹300</strong>
+                      Workshop Fee: <strong>₹400</strong>
                       <strong className="font-mono">{passData.paymentTransactionId}</strong>
                     </div>
                   )}
@@ -695,7 +695,7 @@ export default function RegistrationSection({
             <span aria-hidden="true" className="text-slate-300">
               |
             </span>
-            <span className="font-serif text-xl font-extrabold text-slate-950">₹300</span>
+            <span className="font-serif text-xl font-extrabold text-slate-950">₹400</span>
             <span className="text-xs text-slate-600">
               per delegate (covers all 4 cluster workshops across 28 &amp; 29 Nov)
             </span>
@@ -760,7 +760,7 @@ export default function RegistrationSection({
                 }`}
             >
               <span className="block text-[11px] uppercase tracking-wider opacity-75">Step 4</span>
-              <span className="truncate block mt-0.5">Pay ₹300 &amp; QR</span>
+              <span className="truncate block mt-0.5">Pay ₹400 &amp; QR</span>
             </button>
 
             <button
@@ -1349,7 +1349,7 @@ export default function RegistrationSection({
                     onClick={nextStep}
                     className="inline-flex items-center gap-2 px-8 py-4 bg-blue-900 hover:bg-blue-800 text-white rounded-2xl text-base font-bold shadow-sm transition-all cursor-pointer"
                   >
-                    <span>Proceed to ₹300 Payment QR</span>
+                    <span>Proceed to ₹400 Payment QR</span>
                     <ArrowRight className="w-5 h-5" />
                   </button>
                 </div>
@@ -1362,13 +1362,13 @@ export default function RegistrationSection({
                 <div className="pb-4 border-b border-slate-200">
                   <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-900 mb-1">
                     <CreditCard className="w-4 h-4" />
-                    <span>Mandatory Workshop Payment Verification · ₹300</span>
+                    <span>Mandatory Workshop Payment Verification · ₹400</span>
                   </div>
                   <h3 className="font-serif text-2xl font-bold text-slate-900">
-                    Step 4: Pay ₹300 via QR &amp; Upload Payment Receipt
+                    Step 4: Pay ₹400 via QR &amp; Upload Payment Receipt
                   </h3>
                   <p className="text-sm text-slate-600 mt-1">
-                    Scan the official NBMC&amp;H UPI QR code below and pay <strong className="text-slate-950">₹300</strong> for your workshop cluster registration, then upload the payment confirmation screenshot and enter your UTR / Transaction ID. Registration is accepted only after receipt upload.
+                    Scan the official NBMC&amp;H UPI QR code below and pay <strong className="text-slate-950">₹400</strong> for your workshop cluster registration, then upload the payment confirmation screenshot and enter your UTR / Transaction ID. Registration is accepted only after receipt upload.
                   </p>
                 </div>
 
@@ -1388,7 +1388,7 @@ export default function RegistrationSection({
                         Amount Payable
                       </span>
                       <span className="font-serif text-2xl font-extrabold text-amber-300 leading-none">
-                        ₹300
+                        ₹400
                       </span>
                     </div>
 
@@ -1448,7 +1448,7 @@ export default function RegistrationSection({
 
                     <p className="text-[11px] text-slate-400 mt-3 leading-relaxed">
                       Works with Google Pay, PhonePe, Paytm, BHIM UPI &amp; all major banking apps. Pay exactly{' '}
-                      <strong className="text-white">₹300</strong> for{' '}
+                      <strong className="text-white">₹400</strong> for{' '}
                       <strong className="text-amber-300">
                         Cluster {chosenCluster.id} ({chosenCluster.name})
                       </strong>
@@ -1461,7 +1461,7 @@ export default function RegistrationSection({
                     <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3 text-xs sm:text-sm text-amber-950">
                       <AlertCircle className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
                       <p className="leading-snug">
-                        <strong>Mandatory ₹300 Payment &amp; Verification:</strong> A flat registration fee of <strong>₹300</strong> must be paid for workshop enrollment. Your registration will only be accepted once you pay ₹300 and upload a clear screenshot of the payment receipt showing the amount (₹300) and Transaction / UTR ID.
+                        <strong>Mandatory ₹400 Payment &amp; Verification:</strong> A flat registration fee of <strong>₹400</strong> must be paid for workshop enrollment. Your registration will only be accepted once you pay ₹400 and upload a clear screenshot of the payment receipt showing the amount (₹400) and Transaction / UTR ID.
                       </p>
                     </div>
 
@@ -1518,7 +1518,7 @@ export default function RegistrationSection({
                                 : 'Click to upload payment receipt screenshot'}
                             </span>
                             <span className="block text-sm sm:text-base font-bold text-slate-500">
-                              THE RECEIPT SHOULD CONTAIN THE UPI TRANSACTION ID / UTR REFERENCE NUMBER AND AMOUNT PAID (₹300).
+                              THE RECEIPT SHOULD CONTAIN THE UPI TRANSACTION ID / UTR REFERENCE NUMBER AND AMOUNT PAID (₹400).
                             </span>
                             <span className="block text-xs text-slate-500 mt-1">
                               Upload GPay / PhonePe / Paytm / Bank confirmation image
@@ -1749,7 +1749,7 @@ export default function RegistrationSection({
                       <div>
                         <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 uppercase tracking-wider">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                          <span>₹300 Workshop Fee · Payment Receipt Uploaded</span>
+                          <span>₹400 Workshop Fee · Payment Receipt Uploaded</span>
                         </span>
                         {/* <div className="text-sm font-bold text-slate-950 mt-0.5 font-mono">
                           UTR / Ref: {formData.paymentTransactionId}

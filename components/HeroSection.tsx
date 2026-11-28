@@ -72,11 +72,11 @@ export default function HeroSection({
           {/* Primary Action Buttons */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 mb-16">
             <button
-              type="button"
-              disabled
-              className="inline-flex items-center justify-center gap-3 px-8 py-4 text-base sm:text-lg font-bold text-rose-100 bg-rose-900/90 border border-rose-700/50 rounded-2xl shadow-sm opacity-85 cursor-not-allowed"
+              onClick={onRegisterClick}
+              className="inline-flex items-center justify-center gap-3 px-8 py-4 text-base sm:text-lg font-bold text-white bg-blue-900 hover:bg-blue-800 rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer group"
             >
-              <span>Registration Closed</span>
+              <span>Register for Workshops</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
 
             <button
